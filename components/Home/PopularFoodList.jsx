@@ -17,7 +17,6 @@ export default function PopularFoodList() {
         const querySnapshot = await getDocs(q);
         const foodList = [];
         querySnapshot.forEach((doc) => {
-            // console.log(doc.data());
             setFoodList(prev=>[...prev,doc.data()]);
             // foodList.push(doc.data());
         })

@@ -6,7 +6,7 @@ export default function Volunteers() {
     const navigation = useNavigation();
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: 'Volunteers',
+            headerTitle: 'Old Age Homes',
             headerShown: true,
             headerStyle: {
                 backgroundColor: '#8c6fff',

@@ -12,7 +12,6 @@ export default function Slider() {
       const querySnapshot = await getDocs(q);
       const sliders = [];
       querySnapshot.forEach((doc) => {
-        // console.log(doc.data());
         sliders.push(doc.data());
       });
       setSliderList(sliders);
@@ -23,7 +22,6 @@ export default function Slider() {
 
   return (
     <View>
-      {/* <Text style={styles.text}>#Special for you </Text> */}
       <FlatList
         data={sliderList}
         showsHorizontalScrollIndicator={false}

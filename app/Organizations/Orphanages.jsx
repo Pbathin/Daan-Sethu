@@ -2,15 +2,20 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect} from 'react'
 import { useNavigation } from 'expo-router'
 
-export default function Volunteers() {
+export default function Orphanages() {
     const navigation = useNavigation();
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: 'Old Age Homes',
+            headerTitle: 'Orphanages',
             headerShown: true,
             headerStyle: {
                 backgroundColor: '#8c6fff',
-            }
+            },
+            headerTitleStyle: {   
+              fontSize: 18,          
+              color: '#ffffff',      
+              fontFamily: 'outfit', 
+          },
         })
     }, [])
   return (

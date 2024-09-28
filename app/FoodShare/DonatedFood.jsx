@@ -20,7 +20,12 @@ const DonatedFood=()=> {
             headerTitle:'Donated Foods',
             headerStyle:{
                 backgroundColor: '#8c6fff',
-            }
+            },
+            headerTitleStyle: {   
+              fontSize: 18,          
+              color: '#ffffff',      
+              fontFamily: 'outfit', 
+          },
         })
         user&&GetUserFoods()
     },[user])
@@ -30,7 +35,6 @@ const DonatedFood=()=> {
         const q= query(collection(db, 'FoodList'),where ('userEmail','==', user?.primaryEmailAddress?.emailAddress));
         const querySnapshot= await getDocs(q);
         querySnapshot.forEach((doc)=>{
-            // console.log(doc.data());
             setFoodList(prev=>[...prev,{id:doc.id,...doc.data()}])
         })
         setLoading(false);
@@ -42,7 +46,7 @@ const DonatedFood=()=> {
     }}>
       <Text style={{
         fontFamily:'outfitbold',
-        fontSize:30, 
+        fontSize:25, 
       }}>Donated Foods</Text>
 
       <FlatList

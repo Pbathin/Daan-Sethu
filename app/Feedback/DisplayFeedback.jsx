@@ -17,7 +17,6 @@ export default function DisplayFeedback() {
         const querySnapshot = await getDocs(q);
         const customerFeedback = [];
         querySnapshot.forEach((doc) => {
-            // console.log(doc.data());
             setCustomerFeedback(prev=>[...prev,doc.data()]);
         })
     }

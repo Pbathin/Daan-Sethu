@@ -18,7 +18,12 @@ export default function CustFeedback() {
             headerShown: true,
             headerStyle: {
                 backgroundColor: '#8c6fff',
-            }
+            },
+            headerTitleStyle: {   
+                fontSize: 18,          
+                color: '#ffffff',      
+                fontFamily: 'outfit', 
+            },
         })
     }, [])
 

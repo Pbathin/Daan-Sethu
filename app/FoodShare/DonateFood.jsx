@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView,
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from 'expo-router'
 import * as ImagePicker from 'expo-image-picker';
-import RNPickerSelect from 'react-native-picker-select';
 import { db, storage } from './../../configs/FirebaseConfig'
 import { getDocs, query, collection, document, data, setDoc, doc } from 'firebase/firestore';
 import {WindowWidth, WindowHeight} from '../../GlobalCSS';
@@ -32,7 +31,12 @@ export default function DonateFood() {
             headerShown: true,
             headerStyle:{
                 backgroundColor: '#8c6fff',
-            }
+            },
+            headerTitleStyle: {   
+                fontSize: 18,          
+                color: '#ffffff',      
+                fontFamily: 'outfit', 
+            },
         })
         // GetCategoryList();
     }, [])
@@ -90,11 +94,11 @@ export default function DonateFood() {
         <ScrollView style={{
             padding: 10,
         }}>
-            <Text style={{
+            {/* <Text style={{
                 fontFamily: 'outfitbold',
                 fontSize: 25,
 
-            }}>Donate Food</Text>
+            }}>Donate Food</Text> */}
             <Text style={{
                 fontFamily: 'outfit',
                 color: "gray"

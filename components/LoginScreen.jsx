@@ -57,15 +57,15 @@ const styles = StyleSheet.create({
     height: WindowHeight * 0.6,
     marginTop: 30,
     marginLeft: 20,
-    marginBottom:10
+    marginBottom: 10
   },
   subContainer: {
     backgroundColor: "#8c1aff",
-    height: WindowHeight*0.53,
-    marginTop:-30,
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20
-    },
+    height: WindowHeight * 0.53,
+    marginTop: -30,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+  },
   button: {
     backgroundColor: "#fff",
     height: 55,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     shadowColor: "gray",
     marginTop: 150,
-    alignContent:'center',
+    alignContent: 'center',
     shadowOffset: {
       width: 6,
       height: 6,
@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 50,
     margin: 10,
     paddingBottom: 20,
-    borderRadius:12,
+    borderRadius: 12,
   },
   btnText: {
     textAlign: "center",
     paddingTop: 10,
     fontSize: 20,
     fontFamily: "outfitmedium",
-    color:"#32127a"
+    color: "#32127a"
   },
   headtext: {
     fontSize: 30,
@@ -101,3 +101,4 @@ const styles = StyleSheet.create({
     marginTop: 30,
   }
 })
+
