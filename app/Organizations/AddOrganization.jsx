@@ -10,19 +10,14 @@ import {
     ActivityIndicator,
 } from "react-native";
 import {
-    getDocs,
-    query,
-    collection,
-    document,
-    data,
     setDoc,
     doc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { db, storage } from "./../../configs/FirebaseConfig";
-import { WindowWidth, WindowHeight } from "../../GlobalCSS";
+import { WindowWidth } from "../../GlobalCSS";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/clerk-expo";
 import { Picker } from '@react-native-picker/picker'
@@ -85,14 +80,14 @@ export default function AddOrganization() {
             .then((resp) => {
                 getDownloadURL(imageRef).then(async (downloadUrl) => {
                     console.log(downloadUrl);
-                    saveOrgList(downloadUrl);
+                    pendingOrgList(downloadUrl);
                 });
             });
         setLoading(false);
     };
 
-    const saveOrgList = async (imageUrl) => {
-        await setDoc(doc(db, "orgList", Date.now().toString()), {
+    const pendingOrgList = async (imageUrl) => {
+        await setDoc(doc(db, "pendingOrgList", Date.now().toString()), {
             orgId: orgId,
             orgName: orgName,
             orgType: orgType,
@@ -111,6 +106,7 @@ export default function AddOrganization() {
         });
         setLoading(false);
         ToastAndroid.show("New org added...", ToastAndroid.LONG);
+        router.back();
     };
 
     return (
@@ -158,7 +154,7 @@ export default function AddOrganization() {
                     <Picker
                         selectedValue={orgType}
                         onValueChange={orgType => setOrgType(orgType)}>
-                        <Picker.Item label="Select from below" value=" " />
+                        <Picker.Item label="Organization type" value=" " />
                         <Picker.Item label="Orphanage" value="Orphanage" />
                         <Picker.Item label="Old Age Home" value="Old Age Home" />
                     </Picker>
