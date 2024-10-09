@@ -2,17 +2,17 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView,
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from 'expo-router'
 import * as ImagePicker from 'expo-image-picker';
-import { db, storage } from './../../configs/FirebaseConfig'
-import { getDocs, query, collection, document, data, setDoc, doc } from 'firebase/firestore';
-import {WindowWidth, WindowHeight} from '../../GlobalCSS';
+import { db, storage } from '../../configs/FirebaseConfig'
+import { setDoc, doc } from 'firebase/firestore';
+import { WindowWidth } from '../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import {useUser} from '@clerk/clerk-expo'
+import { useUser } from '@clerk/clerk-expo'
+import { Picker } from '@react-native-picker/picker'
 
 export default function DonateFood() {
     const navigation = useNavigation();
     const [image, setImage] = useState(null);
-    // const [categoryList, setCategoryList] = useState([]);
-    const {user} =useUser();
+    const { user } = useUser();
     const [foodName, setFoodName] = useState();
     const [foodType, setFoodType] = useState();
     const [preparedTime, setPreparedTime] = useState();
@@ -23,22 +23,21 @@ export default function DonateFood() {
     const [landmark, setLandmark] = useState();
     const [city, setCity] = useState();
     const [pinCode, setPinCode] = useState();
-    const [loading, setLoading]=useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         navigation.setOptions({
             headerTitle: 'Donate Food',
             headerShown: true,
-            headerStyle:{
+            headerStyle: {
                 backgroundColor: '#8c6fff',
             },
-            headerTitleStyle: {   
-                fontSize: 18,          
-                color: '#ffffff',      
-                fontFamily: 'outfit', 
+            headerTitleStyle: {
+                fontSize: 18,
+                color: '#ffffff',
+                fontFamily: 'outfit',
             },
         })
-        // GetCategoryList();
     }, [])
 
     const onImagePick = async () => {
@@ -51,41 +50,41 @@ export default function DonateFood() {
         console.log(result);
     }
 
-    const onDonateFood=async()=>{
+    const onDonateFood = async () => {
         setLoading(true);
-        const fileName=Date.now().toString()+".jpg";
-        const resp= await fetch(image);
+        const fileName = Date.now().toString() + ".jpg";
+        const resp = await fetch(image);
         const blob = await resp.blob();
-        
-        const imageRef = ref(storage , 'DaanSethu/'+fileName);
 
-        uploadBytes(imageRef, blob).then((snapshot)=>{
+        const imageRef = ref(storage, 'DaanSethu/' + fileName);
+
+        uploadBytes(imageRef, blob).then((snapshot) => {
             console.log("File Uploaded..");
-        }). then (resp=>{
-            getDownloadURL(imageRef).then(async(downloadUrl)=>{
+        }).then(resp => {
+            getDownloadURL(imageRef).then(async (downloadUrl) => {
                 console.log(downloadUrl);
                 saveFoodList(downloadUrl)
             })
-        }) 
-        setLoading(false);  
+        })
+        setLoading(false);
     }
 
-    const saveFoodList=async(imageUrl)=>{
-        await setDoc(doc(db,'FoodList', Date.now().toString()),{
-            foodName:foodName,
-            foodType:foodType,
-            preparedTime:preparedTime,
-            experiesTime:experiesTime,
-            contact:contact,
-            description:description,
-            address:address,
-            landmark:landmark,
-            city:city,
-            pinCode:pinCode,
-            username:user?.fullName,
-            userEmail:user?.primaryEmailAddress?.emailAddress,
-            userImage:user?.imageUrl,
-            imageUrl:imageUrl,
+    const saveFoodList = async (imageUrl) => {
+        await setDoc(doc(db, 'FoodList', Date.now().toString()), {
+            foodName: foodName,
+            foodType: foodType,
+            preparedTime: preparedTime,
+            experiesTime: experiesTime,
+            contact: contact,
+            description: description,
+            address: address,
+            landmark: landmark,
+            city: city,
+            pinCode: pinCode,
+            username: user?.fullName,
+            userEmail: user?.primaryEmailAddress?.emailAddress,
+            userImage: user?.imageUrl,
+            imageUrl: imageUrl,
         })
         setLoading(false);
         ToastAndroid.show('New food added...', ToastAndroid.LONG)
@@ -94,11 +93,6 @@ export default function DonateFood() {
         <ScrollView style={{
             padding: 10,
         }}>
-            {/* <Text style={{
-                fontFamily: 'outfitbold',
-                fontSize: 25,
-
-            }}>Donate Food</Text> */}
             <Text style={{
                 fontFamily: 'outfit',
                 color: "gray"
@@ -134,126 +128,44 @@ export default function DonateFood() {
             <View>
                 <TextInput placeholder='Food Name'
                     onChangeText={(v) => setFoodName(v)}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
-                <TextInput placeholder='Food: Veg Or Non-veg'
-                    onChangeText={(v) => setFoodType(v)}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
-                />
-                {/* <View style={{
-                    padding: 10,
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    fontSize: 17,
-                    fontFamily: 'outfit',
-                    marginTop: 10,
-                    backgroundColor: '#fff',
-                    borderColor: '#8c6fff',
-                }}>
-                    <RNPickerSelect
-                        onValueChange={(value) => console.log(value)}
-                        items={categoryList}
-                    />
-                </View> */}
+                <View style={styles.TxtIp}>
+                    <Picker
+                        selectedValue={foodType}
+                        onValueChange={foodType => setFoodType(foodType)}>
+                        <Picker.Item label="Select from below" value=" " />
+                        <Picker.Item label="Veg" value="Veg" />
+                        <Picker.Item label="Non-veg" value="Non-veg" />
+                    </Picker>
+                </View>
                 <TextInput placeholder='Prepared Time'
                     onChangeText={(v) => setPreparedTime(v)}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
                 <TextInput placeholder='Experies Time'
                     onChangeText={(v) => setExperiesTime(v)}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
                 <TextInput placeholder='Contact No'
                     onChangeText={(v) => setContact(v)}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
                 <TextInput placeholder='Description'
                     onChangeText={(v) => setDescription(v)}
                     multiline
                     numberOfLines={3}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
                 <TextInput placeholder='Addrees'
                     onChangeText={(v) => setAddress(v)}
                     multiline
                     numberOfLines={3}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
                 <TextInput placeholder='Landmark'
                     onChangeText={(v) => setLandmark(v)}
-                    style={{
-                        padding: 10,
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        fontSize: 17,
-                        fontFamily: 'outfit',
-                        marginTop: 10,
-                        backgroundColor: '#fff',
-                        borderColor: '#8c6fff'
-                    }}
+                    style={styles.TxtIp}
                 />
                 <View style={{
                     display: 'flex',
@@ -271,8 +183,8 @@ export default function DonateFood() {
                             marginTop: 10,
                             backgroundColor: '#fff',
                             borderColor: '#8c6fff',
-                            width:WindowWidth*0.45,
-                            marginRight:10
+                            width: WindowWidth * 0.45,
+                            marginRight: 10
                         }}
                     />
                     <TextInput placeholder='Pin Code'
@@ -286,29 +198,17 @@ export default function DonateFood() {
                             marginTop: 10,
                             backgroundColor: '#fff',
                             borderColor: '#8c6fff',
-                            width:WindowWidth*0.46
+                            width: WindowWidth * 0.46
                         }}
                     />
                 </View>
                 <TouchableOpacity
-                disabled={loading}
-                    style={{
-                        padding: 15,
-                        backgroundColor: "#8c6fff",
-                        borderRadius: 5,
-                        marginTop: 20
-
-                    }}
-                    onPress={()=>onDonateFood()}>
-                    {loading?
-                    <ActivityIndicator size={'large'} color={'#fff'}/>:
-                    <Text
-                    style={{
-                        fontFamily:'outfitmedium',
-                        textAlign:'center',
-                        color:'#fff',
-                        fontSize:15
-                    }}>Donate Food</Text>}
+                    disabled={loading}
+                    style={styles.btn}
+                    onPress={() => onDonateFood()}>
+                    {loading ?
+                        <ActivityIndicator size={'large'} color={'#fff'} /> :
+                        <Text style={styles.btnTxt}>Donate Food</Text>}
                 </TouchableOpacity>
             </View>
             <View style={{
@@ -318,4 +218,27 @@ export default function DonateFood() {
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    TxtIp: {
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        fontSize: 17,
+        fontFamily: 'outfit',
+        marginTop: 10,
+        backgroundColor: '#fff',
+        borderColor: '#8c6fff'
+    },
+    btn :{
+        padding: 15,
+        backgroundColor: "#8c6fff",
+        borderRadius: 5,
+        marginTop: 20
+    },
+    btnTxt: {
+        fontFamily: 'outfitmedium',
+        textAlign: 'center',
+        color: '#fff',
+        fontSize: 15
+    }
+})

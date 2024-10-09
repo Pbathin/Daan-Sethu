@@ -3,7 +3,7 @@ import React from 'react'
 import UserIntro from '../../components/Profile/UserIntro'
 import MenuList from '../../components/Profile/MenuList'
 
-export default function profile() {
+export default function Profile() {
   return (
     <View style={{
       padding:20,

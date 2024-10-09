@@ -58,7 +58,6 @@ export default function AddOrganization() {
                 fontFamily: 'outfit',
             },
         });
-        // GetCategoryList();
     }, []);
 
     const onImagePick = async () => {

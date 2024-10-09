@@ -4,6 +4,7 @@
     "strict": true,
     "target": "esnext",
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "paths": {
       "@/*": [
         "./*"

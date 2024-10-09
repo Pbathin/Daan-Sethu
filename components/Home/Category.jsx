@@ -1,5 +1,4 @@
 import {
-    FlatList,
     StyleSheet,
     Text,
     View,
@@ -7,7 +6,7 @@ import {
     Image,
     ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "expo-router";
 
 export default function Category() {
@@ -16,16 +15,12 @@ export default function Category() {
         <View>
             <View style={styles.sub}>
                 <Text style={styles.headerText}>Category</Text>
-                {/* <Text style={styles.subheadtxt}>View All</Text> */}
             </View>
             <ScrollView>
                 <View
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                    }}>
+                    style={styles.sub_block}>
                     <TouchableOpacity
                         onPress={() => router.push("/FoodShare/exploreList")}
                     >
@@ -39,7 +34,7 @@ export default function Category() {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => router.push("/FoodShare/DonateFood")}
+                        onPress={() => router.push("/FoodShare/DonateFoodEx")}
                     >
                         <View style={styles.icon}>
                             <Image
@@ -74,11 +69,9 @@ export default function Category() {
                         </View>
                         <Text style={styles.text}>Old Age Homes</Text>
                     </TouchableOpacity>
-                </View>
-                <View
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.sub_block}>
+                
+               
+                    
                     <TouchableOpacity
                         onPress={() => router.push("/Volunteers/Volunteers")}
                     >
@@ -112,6 +105,17 @@ export default function Category() {
                         </View>
                         <Text style={styles.text}>Support Us</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => router.push("/SupportUs/supportUs")}
+                    >
+                        <View style={styles.icon}>
+                            <Image
+                                source={require("../../assets/images/Support Us.png")}
+                                style={styles.image}
+                            />
+                        </View>
+                        <Text style={styles.text}>Support Us</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
@@ -122,6 +126,9 @@ const styles = StyleSheet.create({
     sub_block: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent:'space-evenly',
+        flexWrap:'wrap',
+        rowGap:10
     },
     headerText: {
         marginTop: 10,

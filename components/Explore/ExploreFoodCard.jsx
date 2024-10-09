@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity,Linking } from 'react-n
 import React from 'react'
 import { WindowWidth, WindowHeight } from '../../GlobalCSS'
 
+
 export default function ExploreFoodCard({ foods }) {
     
         const handleCall = () => {
