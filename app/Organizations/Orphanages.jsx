@@ -1,53 +1,14 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React, { useEffect} from 'react'
-// import { useNavigation } from 'expo-router'
-
-// export default function Orphanages() {
-//     const navigation = useNavigation();
-//     useEffect(() => {
-//         navigation.setOptions({
-//             headerTitle: 'Orphanages',
-//             headerShown: true,
-//             headerStyle: {
-//                 backgroundColor: '#8c6fff',
-//             },
-//             headerTitleStyle: {   
-//               fontSize: 18,          
-//               color: '#ffffff',      
-//               fontFamily: 'outfit', 
-//           },
-//         })
-//     }, [])
-//   return (
-//     <View>
-//       <Text style={{
-//         fontFamily:'outfitbold',
-//         fontSize:20,
-//         textAlign:'center',
-//         marginTop:200
-//       }}>Exciting updates are just </Text>
-//       <Text style={{
-//         fontFamily:'outfitbold',
-//         fontSize:20,
-//         textAlign:'center',
-//         marginTop:3
-//       }}>around the corner...! </Text>
-//     </View>
-//   )
-// }
-
-
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Linking, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from './../../configs/FirebaseConfig';
 import { WindowWidth, WindowHeight } from '../../GlobalCSS';
 import { useNavigation } from 'expo-router'
 
-export default function OldAgeHomes() {
+export default function Orphanage() {
   const [verifiedOrgList, setVerifiedOrgList] = useState([]);
-
   const navigation = useNavigation();
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: 'Orphanages',
@@ -60,8 +21,8 @@ export default function OldAgeHomes() {
         color: '#ffffff',
         fontFamily: 'outfit',
       },
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     const GetVerifiedOrgList = async () => {
@@ -72,14 +33,28 @@ export default function OldAgeHomes() {
         orgs.push(doc.data());
       });
 
-      // Filter for Old Age Homes only
+      // Filter for Orphanages only
       const filteredOrgs = orgs.filter(org => org.orgType === "Orphanage");
-
       setVerifiedOrgList(filteredOrgs);
     };
 
     GetVerifiedOrgList();
   }, []);
+
+  const handleDonate = (upiId, orgName) => {
+    if (!upiId) {
+      Alert.alert("Error", "No UPI ID provided for this organization.");
+      return;
+    }
+
+    // UPI URL to navigate
+    const upiUrl = `upi://pay?pa=${upiId}&pn=${orgName}&cu=INR&tn=Donation`;
+
+    // Open UPI app
+    Linking.openURL(upiUrl).catch(() => {
+      Alert.alert("Error", "No UPI app found or there was an issue opening the app.");
+    });
+  };
 
   return (
     <View>
@@ -90,9 +65,7 @@ export default function OldAgeHomes() {
         style={{ paddingLeft: 10, marginTop: 10 }}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <View key={index}
-            style={styles.block}
-          >
+          <View key={index} style={styles.block}>
             <Image
               source={{ uri: item.imageUrl }}
               style={{
@@ -126,6 +99,7 @@ export default function OldAgeHomes() {
             </View>
             <TouchableOpacity
               style={styles.btn}
+              onPress={() => handleDonate(item.upiId, item.orgName)}  // Pass UPI ID and org name
             >
               <Text style={styles.btnTxt}>Donate</Text>
             </TouchableOpacity>
