@@ -1,37 +1,40 @@
-import { ScrollView, StyleSheet, Text, View,  } from 'react-native'
-import React from 'react'
-import {WindowHeight} from '../../GlobalCSS'
-import Header from '../../components/Home/Header';
-import PendingOrgs from '../../components/AdminPanel/PendingOrgs';
+import { SafeAreaView, StyleSheet, FlatList, View } from "react-native";
+import React from "react";
+import { WindowHeight } from "../../GlobalCSS";
+import Header from "../../components/Home/Header";
+import PendingOrgs from "../../components/AdminPanel/PendingOrgs";
 
 export default function AdminHome() {
+  const data = [];
   return (
-    <ScrollView
-    style={styles.block}>
-      <Header/>
-      <PendingOrgs/>
-    </ScrollView>
-  )
+    <SafeAreaView style={styles.container}>
+      <Header />
+      <FlatList
+        data={data}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={null}
+        ListHeaderComponent={() => (
+          <View>
+            <PendingOrgs />
+          </View>
+        )}
+      />
+    </SafeAreaView>
+    // <View>
+    // <Header/>
+    //   <PendingOrgs/>
+    // </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  block:{
-    display:'flex'
+  container: {
+    flex: 1,
+    backgroundColor: "#F8F8F8",
   },
-  txt:{
-    fontFamily:'outfitmedium',
-    fontSize:25,
-    color:"purple",
-    textAlign:'center',
-    justifyContent:'center',
-    marginTop:WindowHeight*0.3
+  home: {
+    fontSize: 35,
+    fontFamily: "outfitbold",
+    color: "green",
   },
-  txt1:{
-    fontFamily:'outfitmedium',
-    fontSize:25,
-    color:"purple",
-    textAlign:'center',
-    justifyContent:'center',
-    marginTop:10
-  }
-})
+});
