@@ -31,6 +31,7 @@ export default function AddOrganization() {
     const [orgName, setOrgName] = useState();
     const [orgType, setOrgType] = useState();
     const [contact, setContact] = useState();
+    const [email, setEmail] = useState();
     const [noOfStrength, setNoOfStrength] = useState();
     const [description, setDescription] = useState();
     const [address, setAddress] = useState();
@@ -92,6 +93,7 @@ export default function AddOrganization() {
             orgName: orgName,
             orgType: orgType,
             contact: contact,
+            email:email,
             noOfStrength: noOfStrength,
             description: description,
             address: address,
@@ -162,6 +164,11 @@ export default function AddOrganization() {
                 <TextInput
                     placeholder="Contact No"
                     onChangeText={(v) => setContact(v)}
+                    style={styles.txtIn}
+                />
+                <TextInput
+                    placeholder="Email"
+                    onChangeText={(v) => setEmail(v)}
                     style={styles.txtIn}
                 />
                 <TextInput

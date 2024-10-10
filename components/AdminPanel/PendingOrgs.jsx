@@ -196,16 +196,25 @@ export default function PendingOrgs() {
                             }}
                         />
                         <Text style={styles.txt1}> {item.orgName}</Text>
+                        <View style={{
+                            display:'flex',
+                            flexDirection:'row',
+                            marginTop:10,
+                            flexWrap:'wrap'
+                        }}>
                         <View style={styles.sub_block}>
-                            <Text style={styles.text}> ID: {item.orgId}</Text>
-                            <Text style={styles.text}> Type: {item.orgType}</Text>
-                            <Text style={styles.text}> Strength: {item.noOfStrength}</Text>
-                            <Text style={styles.text}> Contact: {item.contact}</Text>
-                            <Text style={styles.text}> Address: {item.address}</Text>
-                            <Text style={styles.text}> Landmark: {item.landmark}</Text>
-                            <Text style={styles.text}> PIN Code: {item.pinCode}</Text>
-                            <Text style={styles.text}> UPI Id: {item.upiId}</Text>
-                            <Text style={styles.text}> Description: {item.description}</Text>
+                        <Text style={styles.text}> ID: {item.orgId}</Text>
+                        <Text style={styles.text}> Type: {item.orgType}</Text>
+                        <Text style={styles.text}> Strength: {item.noOfStrength}</Text>
+                        <Text style={styles.text}> Contact: {item.contact}</Text>
+                        </View>
+                        <View style={styles.sub_block}>
+                        <Text style={styles.text}> Address: {item.address}</Text>
+                        <Text style={styles.text}> Landmark: {item.landmark}</Text>
+                        <Text style={styles.text}> PIN Code: {item.pinCode}</Text>
+                        <Text style={styles.text}> UPI Id: {item.upiId}</Text>
+                        </View>
+                        <Text style={styles.text}> Description: {item.description}</Text>
                         </View>
 
                         <TouchableOpacity
@@ -248,6 +257,7 @@ const styles = StyleSheet.create({
     sub_block: {
         flexDirection: 'column',
         flexBasis: '50%',
+        flexWrap:'nowrap'
     },
     text: {
         fontFamily: 'outfit',
