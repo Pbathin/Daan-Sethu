@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, FlatList, View } from "react-native";
 import React from "react";
 import Header from "../../components/Home/Header";
-import PendingVerifications from '../AdminPanel/PendingVerifications';
+import PendingVerifications from '../AdminPanel/Verification';
 
 export default function AdminHome() {
   const data = [];

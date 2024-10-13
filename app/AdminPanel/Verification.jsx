@@ -11,13 +11,26 @@ export default function PendingVerifications() {
       <Text style={styles.HeadTxt}>Pending Verifications</Text>
       <TouchableOpacity
       style={styles.btn}
-      onPress={() => router.push('/AdminPanel/PendingOrphanage')}
+      onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOrphanage')}
       >
         <Text style={styles.txt}> Orphanages List </Text>
       </TouchableOpacity>
       <TouchableOpacity
       style={styles.btn}
-      onPress={() => router.push('/AdminPanel/PendingOldAgeHome')}
+      onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOldAgeHome')}
+      >
+        <Text style={styles.txt}> Old Age Home List </Text>
+      </TouchableOpacity>
+      <Text style={styles.HeadTxt}>Verified Orgs</Text>
+      <TouchableOpacity
+      style={styles.btn}
+      onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOrphanage')}
+      >
+        <Text style={styles.txt}> Orphanages List </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+      style={styles.btn}
+      onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOldAgeHome')}
       >
         <Text style={styles.txt}> Old Age Home List </Text>
       </TouchableOpacity>
