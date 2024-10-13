@@ -1,19 +1,18 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Alert, ActivityIndicator, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore';
+import { collection, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../configs/FirebaseConfig';
 import { WindowWidth } from '../../../GlobalCSS';
 import { useNavigation } from "expo-router";
 
-export default function PendingOrphanage() {
-    const [PendingOrphanage, setPendingOrphanage] = useState([]);
-    const [loading, setLoading] = useState(true);  // State for initial data load
-    const [refreshing, setRefreshing] = useState(false);  // State for pull-to-refresh
+export default function VerifiedOldAgeHome() {
+    const [VerifiedOldAgeHome, setVerifiedOldAgeHome] = useState([]);
+    const [loading, setLoading] = useState(true); // Add loading state
     const navigation = useNavigation();
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: "Pending Orphanage",
+            headerTitle: "Verified Old Age Homes",
             headerShown: true,
             headerStyle: {
                 backgroundColor: "#8c6fff",
@@ -26,87 +25,61 @@ export default function PendingOrphanage() {
         });
     }, []);
 
-    const GetPendingOrphanage = async () => {
-        setLoading(true);  // Start loading
-        const q = query(collection(db, 'pendingOrgList'));
-        const querySnapshot = await getDocs(q);
-        const filteredOrgs = querySnapshot.docs
-            .map(doc => ({ ...doc.data(), id: doc.id }))
-            .filter(org => org.orgType === "Orphanage");
-
-        setPendingOrphanage(filteredOrgs);
-        setLoading(false);  // Stop loading
-        setRefreshing(false);  // Stop refreshing
-    };
-
     useEffect(() => {
-        GetPendingOrphanage();
+        const GetVerifiedOldAgeHome = async () => {
+            setLoading(true); // Start loading
+            const q = query(collection(db, 'verifiedOrgList'));
+            const querySnapshot = await getDocs(q);
+            const filteredOrgs = querySnapshot.docs
+                .map(doc => ({ ...doc.data(), id: doc.id }))
+                .filter(org => org.orgType === "Old Age Home"); // Filter for Old Age Homes only
+
+            setVerifiedOldAgeHome(filteredOrgs);
+            setLoading(false); // End loading
+        };
+
+        GetVerifiedOldAgeHome();
     }, []);
 
-    // Handler for pull-to-refresh
-    const onRefresh = async () => {
-        setRefreshing(true);  // Show refreshing spinner
-        await GetPendingOrphanage();  // Reload the data
-    };
-
-    const verifyOrganization = async (org) => {
-        try {
-            await setDoc(doc(db, 'verifiedOrgList', org.id), org);
-            await deleteDoc(doc(db, 'pendingOrgList', org.id));
-            setPendingOrphanage(PendingOrphanage.filter((item) => item.id !== org.id));
-            alert("Organization verified.");
-        } catch (error) {
-            console.error("Error verifying organization: ", error);
-            alert("Failed to verify the organization. Please try again.");
-        }
-    };
-
-    const rejectOrganization = async (org) => {
-        try {
-            await deleteDoc(doc(db, 'pendingOrgList', org.id));
-            setPendingOrphanage(PendingOrphanage.filter((item) => item.id !== org.id));
-            alert("Organization rejected.");
-        } catch (error) {
-            console.error("Error rejecting organization: ", error);
-            alert("Failed to reject the organization. Please try again.");
-        }
-    };
-
-    // Confirmation dialog for approving the organization
-    const confirmApproval = (org) => {
+    const confirmDelete = (org) => {
         Alert.alert(
-            "Confirm Approval",
-            "Are you sure you want to approve this orphanage?",
+            "Delete Confirmation",
+            `Are you sure you want to delete ${org.orgName}?`,
             [
-                { text: "Cancel", style: "cancel" },
-                { text: "Approve", onPress: () => verifyOrganization(org) }
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "Yes", 
+                    onPress: () => deleteOrganization(org)
+                }
             ]
         );
     };
 
-    // Confirmation dialog for rejecting the organization
-    const confirmRejection = (org) => {
-        Alert.alert(
-            "Confirm Rejection",
-            "Are you sure you want to reject this orphanage?",
-            [
-                { text: "Cancel", style: "cancel" },
-                { text: "Reject", onPress: () => rejectOrganization(org), style: 'destructive' }
-            ]
-        );
+    const deleteOrganization = async (org) => {
+        try {
+            await deleteDoc(doc(db, 'verifiedOrgList', org.id));
+            setVerifiedOldAgeHome(VerifiedOldAgeHome.filter((item) => item.id !== org.id));
+            alert("Old Age Home deleted.");
+        } catch (error) {
+            console.error("Error deleting Old Age Home: ", error);
+            alert("Failed to delete the Old Age Home. Please try again.");
+        }
     };
 
     return (
         <View style={styles.container}>
-            {loading ? (  // Show loading indicator
+            {loading ? (  // Show loading animation while data is being fetched
                 <ActivityIndicator size="large" color="#8c6fff" style={styles.loader} />
             ) : (
-                PendingOrphanage.length === 0 ? (
-                    // Show this message when there's no data to fetch
-                    <Text style={styles.noPendingText}>No pending verifications of orphanage.</Text>
+                VerifiedOldAgeHome.length === 0 ? (
+                    <Text style={styles.noVerifiedText}>No verified old age homes available</Text>
                 ) : (
                     <FlatList
-                        data={PendingOrphanage}
+                        data={VerifiedOldAgeHome}
                         vertical={true}
                         showHorizontalScrollIndicator={false}
                         style={{ paddingLeft: 10, marginTop: 10 }}
@@ -144,33 +117,17 @@ export default function PendingOrphanage() {
                                 {/* Description */}
                                 <Text style={styles.description}> Description: {item.description}</Text>
 
-                                {/* Buttons */}
+                                {/* Delete Button */}
                                 <View style={styles.buttonContainer}>
-                                    {/* Approve Button */}
-                                    <TouchableOpacity
-                                        style={styles.btn}
-                                        onPress={() => confirmApproval(item)}
-                                    >
-                                        <Text style={styles.btnTxt}>Approve</Text>
-                                    </TouchableOpacity>
-
-                                    {/* Reject Button */}
                                     <TouchableOpacity
                                         style={[styles.btn, { backgroundColor: '#ff4d4d' }]}
-                                        onPress={() => confirmRejection(item)}
+                                        onPress={() => confirmDelete(item)} // Call confirmDelete function
                                     >
-                                        <Text style={styles.btnTxt}>Reject</Text>
+                                        <Text style={styles.btnTxt}>Remove</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         )}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}  // Trigger refresh when pulled
-                                colors={["#8c6fff"]}  // Color of the refresh indicator
-                            />
-                        }
                     />
                 )
             )}
@@ -183,19 +140,12 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
     },
-    noPendingText: {
-        fontFamily: 'outfitbold',
-        fontSize: 18,
-        textAlign: 'center',
-        marginTop: 20,
-        color: '#555',
-    },
     block: {
         padding: 10,
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         marginBottom: 15,
-        marginHorizontal: 10,
+        marginHorizontal: 5,
         elevation: 3,  // For shadow effect
     },
     image: {
@@ -234,12 +184,12 @@ const styles = StyleSheet.create({
     buttonContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         marginVertical: 10,
     },
     btn: {
         padding: 10,
-        backgroundColor: '#8c6fff',
+        backgroundColor: '#ff4d4d',
         borderRadius: 5,
         width: WindowWidth * 0.4,
         alignItems: 'center',
@@ -248,6 +198,13 @@ const styles = StyleSheet.create({
         fontFamily: 'outfitmedium',
         color: '#fff',
         fontSize: 16,
+    },
+    noVerifiedText: {
+        fontFamily: 'outfit',
+        fontSize: 18,
+        color: 'gray',
+        textAlign: 'center',
+        marginTop: 20,
     },
     loader: {
         flex: 1,
