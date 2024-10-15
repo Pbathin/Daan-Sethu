@@ -20,12 +20,12 @@ import { db, storage } from "./../../configs/FirebaseConfig";
 import { WindowWidth } from "../../GlobalCSS";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/clerk-expo";
-import { Picker } from '@react-native-picker/picker'
+import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function AddOrganization() {
 
     const navigation = useNavigation();
-    const [image, setImage] = useState(null);
     const { user } = useUser();
     const [orgId, setOrgId] = useState();
     const [orgName, setOrgName] = useState();
@@ -40,6 +40,7 @@ export default function AddOrganization() {
     const [pinCode, setPinCode] = useState();
     const [upiId, setUpiId] = useState();
     const [loading, setLoading] = useState(false);
+    const [images, setImages] = useState([]);  // Array to store multiple images
 
     useEffect(() => {
         navigation.setOptions({
@@ -59,41 +60,43 @@ export default function AddOrganization() {
     const onImagePick = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
+            allowsMultipleSelection: true,  // Allow multiple image selection
+            quality: 1,  // Keep image quality high
         });
-        setImage(result?.assets[0].uri);
-        console.log(result);
+
+        if (!result.canceled) {
+            setImages(result.assets.map(asset => asset.uri));  // Store the URIs of selected images
+        }
     };
+
 
     const onAddOrg = async () => {
         setLoading(true);
-        const fileName = Date.now().toString() + ".jpg";
-        const resp = await fetch(image);
-        const blob = await resp.blob();
 
-        const imageRef = ref(storage, "DaanSethu/" + fileName);
+        // Upload each image and get its URL
+        const imageUrls = await Promise.all(images.map(async (imageUri, index) => {
+            const fileName = Date.now().toString() + `_${index}.jpg`;
+            const resp = await fetch(imageUri);
+            const blob = await resp.blob();
 
-        uploadBytes(imageRef, blob)
-            .then((snapshot) => {
-                console.log("File Uploaded..");
-            })
-            .then((resp) => {
-                getDownloadURL(imageRef).then(async (downloadUrl) => {
-                    console.log(downloadUrl);
-                    pendingOrgList(downloadUrl);
-                });
-            });
+            const imageRef = ref(storage, "DaanSethu/" + fileName);
+
+            await uploadBytes(imageRef, blob);
+            const downloadUrl = await getDownloadURL(imageRef);
+            return downloadUrl;
+        }));
+
+        pendingOrgList(imageUrls);  // Pass the array of image URLs to the function
         setLoading(false);
     };
 
-    const pendingOrgList = async (imageUrl) => {
+    const pendingOrgList = async (imageUrls) => {
         await setDoc(doc(db, "pendingOrgList", Date.now().toString()), {
             orgId: orgId,
             orgName: orgName,
             orgType: orgType,
             contact: contact,
-            email:email,
+            email: email,
             noOfStrength: noOfStrength,
             description: description,
             address: address,
@@ -104,43 +107,31 @@ export default function AddOrganization() {
             username: user?.fullName,
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
-            imageUrl: imageUrl,
+            imageUrls: imageUrls,  // Store array of image URLs
         });
-        setLoading(false);
+
         ToastAndroid.show("New org added...", ToastAndroid.LONG);
         router.back();
     };
 
     return (
-        <ScrollView
-            style={styles.cont}
-        >
-            {/* <Text
-                style={styles.headTxt}
-            >
-                Add Organization
-            </Text> */}
-            <Text
-                style={styles.descTxt}
-            >
+        <ScrollView style={styles.cont}>
+            <Text style={styles.descTxt}>
                 Fill all the details in order to add your Organization
             </Text>
-            <TouchableOpacity
-                style={styles.imgBtn}
-                onPress={() => onImagePick()}
-            >
-                {!image ? (
-                    <Image
-                        source={require("../../assets/images/cam_icon.png")}
-                        style={styles.imgPicker}
-                    />
-                ) : (
-                    <Image
-                        source={{ uri: image }}
-                        style={styles.img}
-                    />
-                )}
+
+            {/* Image Picker */}
+            <TouchableOpacity style={styles.imgBtn} onPress={onImagePick}>
+                <Text style={styles.imgPickerText}>Select Images</Text>
             </TouchableOpacity>
+
+            {/* Display selected images */}
+            <ScrollView horizontal style={styles.imagePreviewContainer}>
+                {images.map((imageUri, index) => (
+                    <Image key={index} source={{ uri: imageUri }} style={styles.img} />
+                ))}
+            </ScrollView>
+
             <View>
                 <TextInput
                     placeholder="Organization Id"
@@ -152,15 +143,68 @@ export default function AddOrganization() {
                     onChangeText={(v) => setOrgName(v)}
                     style={styles.txtIn}
                 />
-                <View style={styles.txtIn}>
-                    <Picker
-                        selectedValue={orgType}
-                        onValueChange={orgType => setOrgType(orgType)}>
-                        <Picker.Item label="Organization type" value=" " />
-                        <Picker.Item label="Orphanage" value="Orphanage" />
-                        <Picker.Item label="Old Age Home" value="Old Age Home" />
-                    </Picker>
+
+                <View >
+                    <RNPickerSelect
+                        onValueChange={orgType => setOrgType(orgType)}
+                        items={[
+                            { label: 'Orphanage', value: 'Orphanage' },
+                            { label: 'Old Age Home', value: 'Old Age Home' },
+                            { label: 'Rehabilitation Center', value: 'Rehabilitation Center' }
+                        ]}
+                        placeholder={{
+                            label: 'Organization type',
+                            value: null,
+                            color: '#9EA0A4',
+                        }}
+                        style={{
+                            inputIOS: {
+                                fontSize: 17,
+                                fontFamily: "outfit",
+                                paddingVertical: 12,
+                                paddingHorizontal: 10,
+                                borderWidth: 1,
+                                borderColor: "#8c6fff",
+                                borderRadius: 4,
+                                color: "#000",
+                                backgroundColor: "#fff",
+                                marginTop: 5
+                            },
+                            inputAndroid: {
+                                fontSize: 17,
+                                fontFamily: "outfit",
+                                paddingVertical: 12,
+                                paddingHorizontal: 10,
+                                borderWidth: 1,
+                                borderColor: "#8c6fff",
+                                borderRadius: 4,
+                                color: "#000",
+                                backgroundColor: "#fff",
+                                marginTop: 10
+                            },
+                            placeholder: {
+                                color: 'gray',
+                                fontFamily: 'outfit',
+                                fontSize: 17,
+                            },
+                            viewContainer: {
+                                fontFamily: 'outfit',
+                            },
+                            inputIOSContainer: {
+                                fontFamily: 'outfit',
+                            },
+                            inputAndroidContainer: {
+                                fontFamily: 'outfit',
+                            },
+                            itemStyle: {
+                                fontFamily: 'outfit',  // Font family for the dropdown items
+                                fontSize: 17,
+                            },
+                        }}
+                        useNativeAndroidPickerStyle={false} // Use custom styling
+                    />
                 </View>
+
                 <TextInput
                     placeholder="Contact No"
                     onChangeText={(v) => setContact(v)}
@@ -184,7 +228,7 @@ export default function AddOrganization() {
                     style={styles.txtIn}
                 />
                 <TextInput
-                    placeholder="Addrees"
+                    placeholder="Address"
                     onChangeText={(v) => setAddress(v)}
                     multiline
                     numberOfLines={3}
@@ -195,12 +239,7 @@ export default function AddOrganization() {
                     onChangeText={(v) => setLandmark(v)}
                     style={styles.txtIn}
                 />
-                <View
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                    }}
-                >
+                <View style={{ display: "flex", flexDirection: "row" }}>
                     <TextInput
                         placeholder="City"
                         onChangeText={(v) => setCity(v)}
@@ -217,27 +256,15 @@ export default function AddOrganization() {
                     onChangeText={(v) => setUpiId(v)}
                     style={styles.txtIn}
                 />
-                <TouchableOpacity
-                    disabled={loading}
-                    style={styles.btn}
-                    onPress={() => onAddOrg()}
-                >
+                <TouchableOpacity disabled={loading} style={styles.btn} onPress={onAddOrg}>
                     {loading ? (
                         <ActivityIndicator size={"large"} color={"#fff"} />
                     ) : (
-                        <Text
-                            style={styles.btnTxt}
-                        >
-                            Add Organization
-                        </Text>
+                        <Text style={styles.btnTxt}>Add Organization</Text>
                     )}
                 </TouchableOpacity>
             </View>
-            <View
-                style={{
-                    paddingBottom: 50,
-                }}
-            />
+            <View style={{ paddingBottom: 50 }} />
         </ScrollView>
     );
 }
@@ -263,27 +290,25 @@ const styles = StyleSheet.create({
         color: "gray",
     },
     img: {
-        width: 200,
-        height: 150,
-        borderRadius: 15,
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        marginHorizontal: 5,
         borderColor: "#8c6fff",
         borderWidth: 1.2,
-        alignSelf: "center",
     },
     imgBtn: {
         marginTop: 20,
+        alignItems: 'center',
     },
-    imgPicker: {
-        width: 150,
-        height: 100,
-        borderRadius: 15,
-        borderColor: "#8c6fff",
-        borderWidth: 1.2,
-        alignSelf: "center",
+    imgPickerText: {
+        fontFamily: "outfitmedium",
+        color: "#8c6fff",
+        fontSize: 16,
     },
-    headTxt: {
-        fontFamily: "outfitbold",
-        fontSize: 25,
+    imagePreviewContainer: {
+        marginTop: 10,
+        flexDirection: 'row',
     },
     txtIn: {
         padding: 10,
@@ -318,4 +343,15 @@ const styles = StyleSheet.create({
         borderColor: "#8c6fff",
         width: WindowWidth * 0.46,
     },
+    pickerContainer: {
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        fontSize: 17,
+        fontFamily: "outfit",
+        marginTop: 10,
+        backgroundColor: "#fff",
+        borderColor: "#8c6fff",
+    },
+
 });

@@ -30,7 +30,7 @@ export default function Category() {
                                 style={styles.image}
                             />
                         </View>
-                        <Text style={styles.text}>Food Share</Text>
+                        <Text style={styles.text}>Explore</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -42,7 +42,7 @@ export default function Category() {
                                 style={styles.image}
                             />
                         </View>
-                        <Text style={styles.text}>Food Donate</Text>
+                        <Text style={styles.text}>Donate</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -69,8 +69,18 @@ export default function Category() {
                         </View>
                         <Text style={styles.text}>Old Age Homes</Text>
                     </TouchableOpacity>
-                
-               
+                    <TouchableOpacity
+                        onPress={() => router.push("/Organizations/RehabilitationCenter")}
+                    >
+                        <View style={styles.icon}>
+                            <Image
+                                source={require("../../assets/images/rehabilitation.png")}
+                                style={styles.image}
+                            />
+                        </View>
+                        <Text style={styles.text}>Rehabilitation </Text>
+                        <Text style={styles.text1}> Center</Text>
+                    </TouchableOpacity>               
                     
                     <TouchableOpacity
                         onPress={() => router.push("/Volunteers/Volunteers")}
@@ -93,17 +103,6 @@ export default function Category() {
                             />
                         </View>
                         <Text style={styles.text}>Feedback</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => router.push("/SupportUs/supportUs")}
-                    >
-                        <View style={styles.icon}>
-                            <Image
-                                source={require("../../assets/images/Support Us.png")}
-                                style={styles.image}
-                            />
-                        </View>
-                        <Text style={styles.text}>Support Us</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => router.push("/SupportUs/supportUs")}
@@ -161,5 +160,10 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textAlign: "center",
         marginTop: -5,
+    },
+    text1: {
+        fontFamily: "outfitmedium",
+        fontSize: 12,
+        textAlign: "center",
     },
 });
