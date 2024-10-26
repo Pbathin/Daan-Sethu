@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndi
 import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../configs/FirebaseConfig';
-import { WindowWidth, WindowHeight } from '../../../GlobalCSS';
+import { WindowWidth } from '../../../GlobalCSS';
 import { useNavigation } from "expo-router";
 
 export default function PendingRehaba() {
@@ -63,6 +63,28 @@ export default function PendingRehaba() {
             alert("Failed to reject the organization. Please try again.");
         }
     };
+    // const confirmApproval = (org) => {
+    //     Alert.alert(
+    //         "Confirm Approval",
+    //         "Are you sure you want to approve this Rehabilitation Center ?",
+    //         [
+    //             { text: "Cancel", style: "cancel" },
+    //             { text: "Approve", onPress: () => verifyOrganization(org) }
+    //         ]
+    //     );
+    // };
+
+    // // Confirmation for rejecting the organization
+    // const confirmRejection = (org) => {
+    //     Alert.alert(
+    //         "Confirm Rejection",
+    //         "Are you sure you want to reject this Rehabilitation Center ?",
+    //         [
+    //             { text: "Cancel", style: "cancel" },
+    //             { text: "Reject", onPress: () => rejectOrganization(org), style: 'destructive' }
+    //         ]
+    //     );
+    // };
 
     return (
         <View style={styles.container}>
@@ -79,59 +101,80 @@ export default function PendingRehaba() {
                         showHorizontalScrollIndicator={false}
                         style={{ paddingLeft: 10, marginTop: 10 }}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item, index }) => (
-                            <View key={index} style={styles.block}>
-                                {/* Organization Image */}
-                                <Image
-                                    source={{ uri: item.imageUrl }}
-                                    style={styles.image}
-                                />
+                        renderItem={({ item, index }) => {
+                            // console.log('Item data:', item); // Debugging the item data
 
-                                {/* Organization Name */}
-                                <Text style={styles.orgName}> {item.orgName}</Text>
+                            return (
+                                <View key={index} style={styles.block}>
+                                    {/* Multiple Images */}
+                                    {Array.isArray(item.imageUrls) ? (
+                                        <FlatList
+                                            data={item.imageUrls} // Corrected to imageUrls
+                                            horizontal={true}  // Display images horizontally
+                                            showsHorizontalScrollIndicator={false}
+                                            keyExtractor={(image, index) => index.toString()}
+                                            renderItem={({ item: imageUrl }) => (
+                                                <Image
+                                                    source={{ uri: imageUrl }}
+                                                    style={styles.image}
+                                                />
+                                            )}
+                                        />
+                                    ) : typeof item.imageUrls === 'string' ? (
+                                        <Image
+                                            source={{ uri: item.imageUrls }}
+                                            style={styles.image}
+                                        />
+                                    ) : (
+                                        <Text>No images available</Text>
+                                    )}
 
-                                {/* Organization Details */}
-                                <View style={styles.detailsContainer}>
-                                    {/* First Column */}
-                                    <View style={styles.column}>
-                                        <Text style={styles.text}> ID: {item.orgId}</Text>
-                                        <Text style={styles.text}> Type: {item.orgType}</Text>
-                                        <Text style={styles.text}> Strength: {item.noOfStrength}</Text>
-                                        <Text style={styles.text}> Contact: {item.contact}</Text>
+                                    {/* Organization Name */}
+                                    <Text style={styles.orgName}> {item.orgName}</Text>
+
+                                    {/* Organization Details */}
+                                    <View style={styles.detailsContainer}>
+                                        {/* First Column */}
+                                        <View style={styles.column}>
+                                            <Text style={styles.text}> ID: {item.orgId}</Text>
+                                            <Text style={styles.text}> Type: {item.orgType}</Text>
+                                            <Text style={styles.text}> Strength: {item.noOfStrength}</Text>
+                                            <Text style={styles.text}> Contact: {item.contact}</Text>
+                                        </View>
+                                        
+                                        {/* Second Column */}
+                                        <View style={styles.column}>
+                                            <Text style={styles.text}> Address: {item.address}</Text>
+                                            <Text style={styles.text}> Landmark: {item.landmark}</Text>
+                                            <Text style={styles.text}> PIN Code: {item.pinCode}</Text>
+                                            <Text style={styles.text}> UPI Id: {item.upiId}</Text>
+                                        </View>
                                     </View>
-                                    
-                                    {/* Second Column */}
-                                    <View style={styles.column}>
-                                        <Text style={styles.text}> Address: {item.address}</Text>
-                                        <Text style={styles.text}> Landmark: {item.landmark}</Text>
-                                        <Text style={styles.text}> PIN Code: {item.pinCode}</Text>
-                                        <Text style={styles.text}> UPI Id: {item.upiId}</Text>
+
+                                    {/* Description */}
+                                    <Text style={styles.description}> Description: {item.description}</Text>
+
+                                    {/* Buttons */}
+                                    <View style={styles.buttonContainer}>
+                                        {/* Verify Button */}
+                                        <TouchableOpacity
+                                            style={styles.btn}
+                                            onPress={() => verifyOrganization(item)}
+                                        >
+                                            <Text style={styles.btnTxt}>Verify</Text>
+                                        </TouchableOpacity>
+
+                                        {/* Reject Button */}
+                                        <TouchableOpacity
+                                            style={[styles.btn, { backgroundColor: '#ff4d4d' }]}
+                                            onPress={() => rejectOrganization(item)}
+                                        >
+                                            <Text style={styles.btnTxt}>Reject</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-
-                                {/* Description */}
-                                <Text style={styles.description}> Description: {item.description}</Text>
-
-                                {/* Buttons */}
-                                <View style={styles.buttonContainer}>
-                                    {/* Verify Button */}
-                                    <TouchableOpacity
-                                        style={styles.btn}
-                                        onPress={() => verifyOrganization(item)}
-                                    >
-                                        <Text style={styles.btnTxt}>Verify</Text>
-                                    </TouchableOpacity>
-
-                                    {/* Reject Button */}
-                                    <TouchableOpacity
-                                        style={[styles.btn, { backgroundColor: '#ff4d4d' }]}
-                                        onPress={() => rejectOrganization(item)}
-                                    >
-                                        <Text style={styles.btnTxt}>Reject</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        )}
+                            );
+                        }}
                     />
                 )
             )}
@@ -157,6 +200,7 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 10,
         alignSelf: 'center',
+        marginHorizontal: 5,  // To provide some space between images if multiple
     },
     orgName: {
         fontFamily: 'outfitbold',

@@ -22,15 +22,15 @@ export default function Category() {
                     showsHorizontalScrollIndicator={false}
                     style={styles.sub_block}>
                     <TouchableOpacity
-                        onPress={() => router.push("/FoodShare/exploreList")}
+                        onPress={() => router.push("/NeedHelp/NeedHelp")}
                     >
                         <View style={styles.icon}>
                             <Image
-                                source={require("../../assets/images/Food share.png")}
+                                source={require("../../assets/images/Need Help.png")}
                                 style={styles.image}
                             />
                         </View>
-                        <Text style={styles.text}>Explore</Text>
+                        <Text style={styles.text}>Need Help?</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity

@@ -81,11 +81,23 @@ export default function PendingOldAgeHome() {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
                             <View key={index} style={styles.block}>
-                                {/* Organization Image */}
-                                <Image
-                                    source={{ uri: item.imageUrl }}
-                                    style={styles.image}
-                                />
+                                {/* Organization Images (Handling multiple imageUrls) */}
+                                {Array.isArray(item.imageUrls) ? (
+                                    <FlatList
+                                        data={item.imageUrls}
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+                                        keyExtractor={(image, index) => index.toString()}
+                                        renderItem={({ item: imageUrl }) => (
+                                            <Image
+                                                source={{ uri: imageUrl }}
+                                                style={styles.image}
+                                            />
+                                        )}
+                                    />
+                                ) : (
+                                    <Text>No images available</Text>
+                                )}
 
                                 {/* Organization Name */}
                                 <Text style={styles.orgName}> {item.orgName}</Text>
@@ -157,6 +169,7 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 10,
         alignSelf: 'center',
+        marginHorizontal: 5,
     },
     orgName: {
         fontFamily: 'outfitbold',

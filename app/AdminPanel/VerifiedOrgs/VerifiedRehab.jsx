@@ -1,18 +1,18 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from 'react-native'; // Added Alert import
 import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../configs/FirebaseConfig';
 import { WindowWidth } from '../../../GlobalCSS';
 import { useNavigation } from "expo-router";
 
-export default function VerifiedOldAgeHome() {
-    const [VerifiedOldAgeHome, setVerifiedOldAgeHome] = useState([]);
+export default function VerifiedRehab() {
+    const [VerifiedRehaba, setVerifiedRehaba] = useState([]);
     const [loading, setLoading] = useState(true); 
     const navigation = useNavigation();
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: "Verified Old Age Homes",
+            headerTitle: "Verified Rehabilitation Center",
             headerShown: true,
             headerStyle: {
                 backgroundColor: "#8c6fff",
@@ -26,19 +26,19 @@ export default function VerifiedOldAgeHome() {
     }, []);
 
     useEffect(() => {
-        const GetVerifiedOldAgeHome = async () => {
+        const GetVerifiedRehaba = async () => {
             setLoading(true); 
             const q = query(collection(db, 'verifiedOrgList'));
             const querySnapshot = await getDocs(q);
             const filteredOrgs = querySnapshot.docs
                 .map(doc => ({ ...doc.data(), id: doc.id }))
-                .filter(org => org.orgType === "Old Age Home"); 
+                .filter(org => org.orgType === "Rehabilitation Center");
 
-            setVerifiedOldAgeHome(filteredOrgs);
+            setVerifiedRehaba(filteredOrgs);
             setLoading(false); 
         };
 
-        GetVerifiedOldAgeHome();
+        GetVerifiedRehaba();
     }, []);
 
     const confirmDelete = (org) => {
@@ -62,11 +62,11 @@ export default function VerifiedOldAgeHome() {
     const deleteOrganization = async (org) => {
         try {
             await deleteDoc(doc(db, 'verifiedOrgList', org.id));
-            setVerifiedOldAgeHome(VerifiedOldAgeHome.filter((item) => item.id !== org.id));
-            alert("Old Age Home deleted.");
+            setVerifiedRehaba(VerifiedRehaba.filter((item) => item.id !== org.id));
+            alert("Rehabilitation Center deleted.");
         } catch (error) {
-            console.error("Error deleting Old Age Home: ", error);
-            alert("Failed to delete the Old Age Home. Please try again.");
+            console.error("Error deleting Rehabilitation Center: ", error);
+            alert("Failed to delete the Rehabilitation Center. Please try again.");
         }
     };
 
@@ -92,11 +92,11 @@ export default function VerifiedOldAgeHome() {
             {loading ? (  
                 <ActivityIndicator size="large" color="#8c6fff" style={styles.loader} />
             ) : (
-                VerifiedOldAgeHome.length === 0 ? (
-                    <Text style={styles.noVerifiedText}>No verified old age homes available</Text>
+                VerifiedRehaba.length === 0 ? (
+                    <Text style={styles.noVerifiedText}>No verified rehabilitation centers available</Text>
                 ) : (
                     <FlatList
-                        data={VerifiedOldAgeHome}
+                        data={VerifiedRehaba}
                         vertical={true}
                         showsVerticalScrollIndicator={false}
                         style={{ paddingLeft: 10, marginTop: 10 }}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         elevation: 3,  
     },
     image: {
-        width: WindowWidth * 0.75, 
+        width: WindowWidth * 0.75, // Adjust width for horizontal scrolling
         height: 200,
         borderRadius: 10,
         marginRight: 10,
@@ -225,3 +225,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 });
+

@@ -18,14 +18,14 @@ export default function PendingVerifications() {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingRehaba')}
+        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOldAgeHome')}
       >
         <Text style={styles.txt}> Old Age Home List </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOldAgeHome')}
+        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingRehaba')}
       >
         <Text style={styles.txt}> Rehabilitation Center List</Text>
       </TouchableOpacity>
@@ -41,6 +41,12 @@ export default function PendingVerifications() {
         onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOldAgeHome')}
       >
         <Text style={styles.txt}> Old Age Home List </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedRehab')}
+      >
+        <Text style={styles.txt}> Rehabilitation Center List </Text>
       </TouchableOpacity>
     </View>
   )

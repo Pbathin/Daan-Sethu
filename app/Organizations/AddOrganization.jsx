@@ -110,7 +110,7 @@ export default function AddOrganization() {
             imageUrls: imageUrls,  // Store array of image URLs
         });
 
-        ToastAndroid.show("New org added...", ToastAndroid.LONG);
+        ToastAndroid.show("Org Waiting for verfication...", ToastAndroid.LONG);
         router.back();
     };
 
