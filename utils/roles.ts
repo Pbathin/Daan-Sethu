@@ -8,3 +8,4 @@ export const checkRole =async (role: Roles) => {
   
     return userRole === role;
   };
+  

@@ -6,22 +6,6 @@ import Category from '../../components/Home/Category';
 import PopularFoodList from '../../components/Home/PopularFoodList';
 import RecentFeedback from '../../components/Home/RecentFeedback';
 
-// export default function Home() {
-//     const data = []; 
-//     return (
-//         <SafeAreaView style={styles.container}>
-//             <Header />
-//             <ScrollView >
-//                 <Slider />
-//                 <Category />
-//                 <PopularFoodList />
-//                 <RecentFeedback />
-//             </ScrollView>
-//         </SafeAreaView>
-//     );
-// }
-
-
 export default function Home() {
     const data = [];
 

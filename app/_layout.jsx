@@ -32,10 +32,23 @@ export default function RootLayout() {
     return null; // Don't render until fonts are loaded
   }
 
+
+  const linking = {
+    prefixes: ['myapp://', 'https://myapp.com'],
+    config: {
+      screens: {
+        home: 'home',
+        admin: 'admin',
+        login: 'login',
+        // Other screens
+      },
+    },
+  };
+  
   return (
     <ClerkProvider>
       <SignedIn>
-        <Stack screenOptions={{ headerShown: false }}>
+        <Stack screenOptions={{ headerShown: false }}  linking={linking}>
           <Stack.Screen name="admin" />
           <Stack.Screen name="(tabs)" />   
 
