@@ -91,7 +91,6 @@ export default function SupportUs() {
 
           {/* Show QR Code Button */}
           <TouchableOpacity
-            //style={styles.qrToggleButton}
             onPress={toggleQRModal}
           >
             <Text style={styles.btnText1}>Show QR Code</Text>
@@ -133,8 +132,8 @@ export default function SupportUs() {
               source={require("../../assets/images/QR code.png")} // Use the actual QR image here
             />
 
-            <Pressable style={styles.closeButton} onPress={toggleQRModal}>
-              <Text style={styles.closeButtonText}>X</Text>
+            <Pressable  onPress={toggleQRModal}>
+              <Text style={styles.closeButtonText}>❌</Text>
             </Pressable>
           </View>
         </View>
