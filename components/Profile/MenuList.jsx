@@ -8,15 +8,15 @@ export default function MenuList() {
     const menuList = [
         {
             id: 1,
-            name: 'Donate Food',
+            name: 'Donate',
             icon: require('../../assets/images/add.png'),
-            path: '/FoodShare/DonateFood'
+            path:  '/Donate/Donate'
         },
         {
             id: 2,
-            name: 'Donated Foods',
+            name: 'Donated Items',
             icon: require('../../assets/images/my_donation.png'),
-            path: '/FoodShare/DonatedFood'
+            path: '/Donate/Donate'
         },
         {
             id: 3,

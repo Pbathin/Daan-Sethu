@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs, limit, query, orderBy } from 'firebase/firestore';
 import { db } from '../../configs/FirebaseConfig';
 import ExploreFoodCard from './ExploreFoodCard';
-import { WindowWidth, WindowHeight } from '../../GlobalCSS';
+import {  WindowHeight } from '../../GlobalCSS';
 import { useNavigation } from 'expo-router'
 
 export default function ExploreList() {

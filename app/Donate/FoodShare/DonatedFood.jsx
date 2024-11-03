@@ -2,8 +2,8 @@ import { View, Text, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useUser } from '@clerk/clerk-expo'
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db, storage } from './../../configs/FirebaseConfig'
-import ExploreFoodCardTrash from '../../components/Explore/ExploreFoodCardTrash';
+import { db, storage } from '../../../configs/FirebaseConfig'
+import ExploreFoodCardTrash from '../../../components/Explore/ExploreFoodCardTrash';
 import { useNavigation } from 'expo-router';
 
 const DonatedFood=()=> {

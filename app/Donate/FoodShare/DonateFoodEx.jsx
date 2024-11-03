@@ -263,9 +263,9 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView,
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
-import { db, storage } from '../../configs/FirebaseConfig';
+import { db, storage } from '../../../configs/FirebaseConfig';
 import { setDoc, doc } from 'firebase/firestore';
-import { WindowWidth } from '../../GlobalCSS';
+import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo';
 import { Picker } from '@react-native-picker/picker';
@@ -386,7 +386,7 @@ export default function DonateFood() {
             </Text>
             <TouchableOpacity style={styles.imagePicker} onPress={onImagePick}>
                 {!image ? (
-                    <Image source={require('../../assets/images/cam_icon.png')} style={styles.image} />
+                    <Image source={require('../../../assets/images/cam_icon.png')} style={styles.image} />
                 ) : (
                     <Image source={{ uri: image }} style={styles.image} />
                 )}

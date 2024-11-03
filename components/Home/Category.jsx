@@ -34,7 +34,7 @@ export default function Category() {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => router.push("/FoodShare/DonateFoodEx")}
+                        onPress={() => router.push("/Donate/Donate")}
                     >
                         <View style={styles.icon}>
                             <Image
