@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, SafeAreaView, TextInput } from 'react-na
 import React from 'react'
 import { useUser } from '@clerk/clerk-expo'
 import { Feather } from '@expo/vector-icons';
-import {WindowWidth, WindowHeight} from '../../GlobalCSS'
+import {WindowWidth} from '../../GlobalCSS'
 
 export default function Header() {
     const { user } = useUser();

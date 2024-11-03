@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   Header: {
-    fontFamily: 'outfitmedium',
+    fontFamily: 'outfitbold',
     fontSize: 20,
     color: '#4b4b4b',
     marginVertical: 12,

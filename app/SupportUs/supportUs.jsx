@@ -49,7 +49,7 @@ export default function SupportUs() {
       headerTitle: "Support Us",
       headerShown: true,
       headerStyle: {
-        backgroundColor: "#8c6fff",
+        backgroundColor: '#8c1aff',//#8c6fff
       },
       headerTitleStyle: {
         fontSize: 18,

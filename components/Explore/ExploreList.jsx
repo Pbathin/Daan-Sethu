@@ -14,7 +14,7 @@ export default function ExploreList() {
             headerTitle: 'Food Share',
             headerShown: true,
             headerStyle: {
-                backgroundColor: '#8c6fff',
+                backgroundColor: '#8c1aff',//#8c6fff
             },
             headerTitleStyle: {
                 fontSize: 18,

@@ -26,7 +26,7 @@ export default function MenuList() {
         },
         {
             id: 4,
-            name: 'Add Organization',
+            name: 'Add Orgs',
             icon: require('../../assets/images/Add Organization.png'),
             path: 'Organizations/AddOrganization'
         },
