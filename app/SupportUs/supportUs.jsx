@@ -85,7 +85,8 @@ export default function SupportUs() {
               <Text style={styles.label}>Account Number:</Text> 1234567890{"\n"}
               <Text style={styles.label}>Bank Name:</Text> State Bank of India
               {"\n"}
-              <Text style={styles.label}>IFSC Code:</Text> SBIN0012345
+              <Text style={styles.label}>IFSC Code:</Text> SBIN0012345 {"\n"}
+              <Text style={styles.label}>UPI Id:</Text> daansethu@oksbi
             </Text>
           </View>
 

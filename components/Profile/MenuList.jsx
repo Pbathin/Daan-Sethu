@@ -16,7 +16,7 @@ export default function MenuList() {
             id: 2,
             name: 'Donated Items',
             icon: require('../../assets/images/my_donation.png'),
-            path: '/Donate/Donate'
+            path: '/Donate/FoodShare/DonatedFood'
         },
         {
             id: 3,
