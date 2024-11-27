@@ -7,7 +7,7 @@ import {WindowWidth} from '../../GlobalCSS'
 export default function Header() {
     const { user } = useUser();
     return (
-        <SafeAreaView >
+        <View >
             <View style={styles.container1}>
                 <View style={styles.Subcontainer1}>
                     <Image style={styles.headerimg} source={{ uri: user?.imageUrl }} />
@@ -30,7 +30,7 @@ export default function Header() {
                     }} />
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 

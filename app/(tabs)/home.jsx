@@ -10,7 +10,7 @@ export default function Home() {
     const data = [];
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView>
             <Header />
             <FlatList
                 data={data}

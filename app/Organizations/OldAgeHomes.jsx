@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     padding: 3,
     flexWrap: 'nowrap'
   },
-  txt1: {
+    txt1: {
     fontFamily: "outfitmedium",
     fontSize: 14,
     textAlign: 'center'
