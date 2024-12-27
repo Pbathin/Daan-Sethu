@@ -14,12 +14,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.athinpb.daansethu"
+      "bundleIdentifier": "com.athinpb.daansethu",
+      "newArchEnabled": false
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "newArchEnabled": false
       },
       "package": "com.athinpb.Daan_sethu",
       "permissions": [

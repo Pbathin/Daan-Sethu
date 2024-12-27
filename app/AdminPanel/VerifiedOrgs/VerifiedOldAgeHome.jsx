@@ -15,7 +15,7 @@ export default function VerifiedOldAgeHome() {
             headerTitle: "Verified Old Age Homes",
             headerShown: true,
             headerStyle: {
-                backgroundColor: "#8c6fff",
+                backgroundColor: "#8c1aff",
             },
             headerTitleStyle: {
                 fontSize: 18,

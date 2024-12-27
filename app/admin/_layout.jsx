@@ -45,7 +45,7 @@ export default function AdminLayout() {
     <>
       {/* Adding Gradient Background */}
       <LinearGradient
-        colors={['#8c6fff', '#b49fff']}
+        colors={['#8c1aff', '#b49fff']}
         style={styles.gradientBg}
       />
       <Tabs

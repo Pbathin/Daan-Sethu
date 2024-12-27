@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, StatusBar } from 'react-native';
 import Header from '../../components/Home/Header';
 import Slider from '../../components/Home/Slider';
 import Category from '../../components/Home/Category';
@@ -10,8 +10,15 @@ export default function Home() {
     const data = [];
 
     return (
-        <SafeAreaView>
-            <Header />
+        <View style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor="#8c1aff" />
+
+            {/* Top Section with Background Color */}
+            <View style={styles.topSection}>
+                <Header />
+            </View>
+
+            {/* Rest of the Screen */}
             <FlatList
                 data={data}
                 keyExtractor={(item, index) => index.toString()}
@@ -24,18 +31,23 @@ export default function Home() {
                         <RecentFeedback />
                     </View>
                 )}
+                contentContainerStyle={styles.listContent}
             />
-        </SafeAreaView>
+        </View>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F8F8'
+        backgroundColor: '#F8F8F8', // Default background for the rest of the screen
     },
-    home: {
-        fontSize: 35,
-        fontFamily: 'outfitbold',
-        color: 'green',
+    topSection: {
+        backgroundColor: '#8c1aff', // Background color for the top section
+        // paddingBottom: 10, // Adjust to match the height of your header
+        marginTop:-25
+    },
+    listContent: {
+        paddingBottom: 20, // Ensures proper spacing at the bottom
     },
 });

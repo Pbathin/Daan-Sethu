@@ -9,7 +9,7 @@ export default function DonateOtherItems() {
             headerTitle: 'Donate Other Items',
             headerShown: true,
             headerStyle: {
-                backgroundColor: '#8c6fff',
+                backgroundColor: '#8c1aff',
             },
             headerTitleStyle: {   
               fontSize: 18,          

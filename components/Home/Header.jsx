@@ -1,21 +1,32 @@
-import { StyleSheet, Text, View, Image, SafeAreaView, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, SafeAreaView, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useUser } from '@clerk/clerk-expo'
 import { Feather } from '@expo/vector-icons';
 import {WindowWidth} from '../../GlobalCSS'
+import { useRouter } from "expo-router";
 
 export default function Header() {
     const { user } = useUser();
+    const router = useRouter();
     return (
         <View >
             <View style={styles.container1}>
                 <View style={styles.Subcontainer1}>
-                    <Image style={styles.headerimg} source={{ uri: user?.imageUrl }} />
+                <TouchableOpacity
+                onPress={() => router.push("/(tabs)/profile")}
+                >
+                <Image style={styles.headerimg} source={{ uri: user?.imageUrl }} />
+                </TouchableOpacity>
                     <View >
                         <Text style={styles.text1}>Welcome,</Text>
                         <Text style={styles.text1}>{user?.fullName}</Text>
                         <View style={styles.sub3}>
+                        <TouchableOpacity
+                         onPress={() => router.push("/AboutUs/AboutUs")}
+                        >
                             <Text style={styles.appname}> DaanSethu</Text>
+                        </TouchableOpacity>
+                            
                         </View>
                     </View>
                 </View>

@@ -294,7 +294,7 @@ export default function DonateFood() {
             headerTitle: 'Donate Food',
             headerShown: true,
             headerStyle: {
-                backgroundColor: '#8c6fff',
+                backgroundColor: '#8c1aff',
             },
             headerTitleStyle: {
                 fontSize: 18,

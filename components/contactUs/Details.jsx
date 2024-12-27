@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking, Image, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking, Image, SafeAreaView, ScrollView } from 'react-native';
 import { Ionicons, Entypo } from 'react-native-vector-icons';
 
 const peopleData = [
@@ -44,7 +44,7 @@ const Details = () => {
         };
 
         return (
-            <SafeAreaView style={{
+            <ScrollView style={{
                 display: 'flex',
                 flexDirection: 'column'
             }}>
@@ -67,7 +67,7 @@ const Details = () => {
                         </View>
                     </View>
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         );
     };
 

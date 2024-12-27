@@ -16,7 +16,7 @@ export default function Orphanages() {
       headerTitle: 'Orphanages',
       headerShown: true,
       headerStyle: {
-        backgroundColor: '#8c6fff',
+        backgroundColor: '#8c1aff',
       },
       headerTitleStyle: {
         fontSize: 18,

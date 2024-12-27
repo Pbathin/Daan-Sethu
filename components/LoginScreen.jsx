@@ -27,7 +27,6 @@ export default function LoginScreen() {
     }
   }, []);
   return (
-    <SafeAreaView>
       <ScrollView >
         <View style={styles.container}>
           <View>
@@ -43,7 +42,6 @@ export default function LoginScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
 
   )
 }

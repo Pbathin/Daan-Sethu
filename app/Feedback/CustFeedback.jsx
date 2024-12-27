@@ -17,7 +17,7 @@ export default function CustFeedback() {
             headerTitle: 'Customer Feedback',
             headerShown: true,
             headerStyle: {
-                backgroundColor: '#8c6fff',
+                backgroundColor: '#8c1aff',
             },
             headerTitleStyle: {   
                 fontSize: 18,          

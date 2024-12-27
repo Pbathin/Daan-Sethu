@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Animated } from 'react-native';
+import { StyleSheet, Animated, View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Animation hook for scaling the tab icon
 function useAnimatedTabIcon(focused) {
@@ -43,61 +42,57 @@ function useAnimatedTabColor(focused) {
 
 export default function TabLayout() {
   return (
-    <>
-      {/* Safe area for handling notches */}
-      <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-        {/* Adding Gradient Background */}
-        <LinearGradient
-          colors={['#8c6fff', '#b49fff']}
-          style={styles.gradientBg}
-        />
-        <Tabs
-          screenOptions={({ route }) => ({
-            headerShown: false, // Hide the header label
-            tabBarShowLabel: false, // Hide tab bar labels
-            tabBarStyle: [styles.tabBar], // Custom tab bar style
-            tabBarIcon: ({ focused }) => {
-              let iconName;
-              let IconComponent = Ionicons;
+    <View style={styles.container}>
+      {/* Adding Gradient Background */}
+      <LinearGradient
+        colors={['#8c6fff', '#b49fff']}
+        style={styles.gradientBg}
+      />
+      <Tabs
+        screenOptions={({ route }) => ({
+          headerShown: false, // Hide the header label
+          tabBarShowLabel: false, // Hide tab bar labels
+          tabBarStyle: [styles.tabBar], // Custom tab bar style
+          tabBarIcon: ({ focused }) => {
+            let iconName;
+            let IconComponent = Ionicons;
 
-              if (route.name === 'home') {
-                iconName = focused ? 'home' : 'home-outline';
-              } else if (route.name === 'explore') {
-                iconName = focused ? 'search' : 'search-outline';
-              }  else if (route.name === 'contactUs') {
-                IconComponent = AntDesign;
-                iconName = 'customerservice';
-              } else if (route.name === 'profile') {
-                iconName = focused ? 'person' : 'person-outline';
-              }
+            if (route.name === 'home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'explore') {
+              iconName = focused ? 'search' : 'search-outline';
+            } else if (route.name === 'contactUs') {
+              IconComponent = AntDesign;
+              iconName = 'customerservice';
+            } else if (route.name === 'profile') {
+              iconName = focused ? 'person' : 'person-outline';
+            }
 
-              const animatedProps = useAnimatedTabIcon(focused);
-              const animatedColor = useAnimatedTabColor(focused);
+            const animatedProps = useAnimatedTabIcon(focused);
+            const animatedColor = useAnimatedTabColor(focused);
 
-              return (
-                <Animated.View style={{ transform: [{ scale: animatedProps.scale }] }}>
-                  <Animated.Text style={{ color: animatedColor }}>
-                    <IconComponent name={iconName} size={25} />
-                  </Animated.Text>
-                </Animated.View>
-              );
-            },
-          })}
-        >
-          <Tabs.Screen name="home" />
-          <Tabs.Screen name="explore" />
-          <Tabs.Screen name="contactUs" />
-          <Tabs.Screen name="profile" />
-        </Tabs>
-      </SafeAreaView>
-    </>
+            return (
+              <Animated.View style={{ transform: [{ scale: animatedProps.scale }] }}>
+                <Animated.Text style={{ color: animatedColor }}>
+                  <IconComponent name={iconName} size={25} />
+                </Animated.Text>
+              </Animated.View>
+            );
+          },
+        })}
+      >
+        <Tabs.Screen name="home" />
+        <Tabs.Screen name="explore" />
+        <Tabs.Screen name="contactUs" />
+        <Tabs.Screen name="profile" />
+      </Tabs>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    backgroundColor: '#ffffff',
   },
   tabBar: {
     position: 'absolute',
@@ -113,6 +108,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 10,
     paddingHorizontal: 10,
+    paddingTop:5
   },
   gradientBg: {
     position: 'absolute',
