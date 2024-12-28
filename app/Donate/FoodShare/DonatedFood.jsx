@@ -1,66 +1,74 @@
-import { View, Text, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useUser } from '@clerk/clerk-expo'
+import { View, Text, FlatList, ActivityIndicator, ToastAndroid } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useUser } from '@clerk/clerk-expo';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db, storage } from '../../../configs/FirebaseConfig'
-import ExploreFoodCardTrash from '../../../components/Explore/ExploreFoodCardTrash';
+import { db } from '../../../configs/FirebaseConfig';
+import ExploreItemCardTrash from '../../../components/Explore/ExploreFoodCardTrash';
 import { useNavigation } from 'expo-router';
 
-const DonatedFood=()=> {
+const DonatedItems = () => {
+    const { user } = useUser();
+    const [itemList, setItemList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
 
-    const {user} = useUser();
-
-    const [foodList, setFoodList]=useState([]);
-    const [loading,setLoading]=useState(false);
-    const navigation=useNavigation();
-     
-    useEffect(()=>{
+    useEffect(() => {
         navigation.setOptions({
-            headerShown:true,
-            headerTitle:'Donated Foods',
-            headerStyle:{
+            headerShown: true,
+            headerTitle: 'Donated Items',
+            headerStyle: {
                 backgroundColor: '#8c1aff',
             },
-            headerTitleStyle: {   
-              fontSize: 18,          
-              color: '#ffffff',      
-              fontFamily: 'outfit', 
-          },
-        })
-        user&&GetUserFoods()
-    },[user])
-    const GetUserFoods=async()=>{
-        setLoading(true);
-        setFoodList([]);
-        const q= query(collection(db, 'FoodList'),where ('userEmail','==', user?.primaryEmailAddress?.emailAddress));
-        const querySnapshot= await getDocs(q);
-        querySnapshot.forEach((doc)=>{
-            setFoodList(prev=>[...prev,{id:doc.id,...doc.data()}])
-        })
-        setLoading(false);
-    }
-  return (
-    <View style={{
-        marginTop:5,
-        paddingLeft:10
-    }}>
-      <Text style={{
-        fontFamily:'outfitbold',
-        fontSize:25, 
-      }}>Donated Foods</Text>
+            headerTitleStyle: {
+                fontSize: 18,
+                color: '#ffffff',
+                fontFamily: 'outfit',
+            },
+        });
+        if (user) GetUserDonatedItems();
+    }, [user]);
 
-      <FlatList
-      data={foodList}
-      onRefresh={GetUserFoods}
-      refreshing={loading}
-      renderItem={({item,index})=>(
-        <ExploreFoodCardTrash
-            foods={item}
-            key={index}
-        />
-      )}
-      />
-    </View>
-  )
-}
-export default DonatedFood;
+    const GetUserDonatedItems = async () => {
+        setLoading(true);
+        setItemList([]);
+        try {
+            const collections = ['FoodList', 'ClothesList', 'BooksList']; // Add other collections here
+            let allItems = [];
+
+            for (let collectionName of collections) {
+                const q = query(collection(db, collectionName), where('userEmail', '==', user?.primaryEmailAddress?.emailAddress));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    allItems.push({ id: doc.id, ...doc.data(), category: collectionName });
+                });
+            }
+
+            setItemList(allItems);
+        } catch (error) {
+            ToastAndroid.show('Error fetching donated items.', ToastAndroid.LONG);
+        }
+        setLoading(false);
+    };
+
+    return (
+        <View style={{ marginTop: 5, paddingLeft: 10 }}>
+            {loading ? (
+                <ActivityIndicator size="large" color="#8c1aff" />
+            ) : (
+                <FlatList
+                    data={itemList}
+                    onRefresh={GetUserDonatedItems}
+                    refreshing={loading}
+                    renderItem={({ item, index }) => (
+                        <ExploreItemCardTrash
+                            item={item} // Pass item as a prop to the card
+                            key={index}
+                        />
+                    )}
+                />
+            )}
+        </View>
+    );
+};
+
+export default DonatedItems;
