@@ -4,6 +4,7 @@ import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import LoginScreen from "../components/LoginScreen";
 import * as SecureStore from "expo-secure-store";
 
+
 const tokenCache = {
   async getToken(key) {
     try {

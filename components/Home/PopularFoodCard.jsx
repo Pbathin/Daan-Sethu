@@ -1,69 +1,3 @@
-// import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-// import React from 'react'
-
-// export default function PopularFoodCard({ foods }) {
-//     return (
-//         <TouchableOpacity>
-//             <View style={{
-//                 marginLeft: 15,
-//                 padding: 10,
-//                 backgroundColor: "#fff",
-//                 borderRadius: 15,
-//                 width: 230,
-//                 height: 'auto',
-//             }}>
-//                 <Image source={{ uri: foods?.imageUrl }}
-//                     style={{
-//                         width: 210,
-//                         height: 140,
-//                         borderRadius: 15,
-//                         marginBottom: 5
-//                     }}
-//                 />
-//                 <View>
-//                     <Text style={{
-//                         fontFamily: 'outfitbold',
-//                         fontSize: 17,
-//                         textAlign: 'center',
-//                         paddingBottom: 3
-//                     }}>{foods.foodName}</Text>
-//                     <Text style={{
-//                         fontFamily: 'outfit',
-//                         fontSize: 13,
-//                         color: 'gray',
-//                         textAlign: 'justify',
-//                         paddingBottom: 5
-//                     }}>{foods.description}</Text>
-
-//                     <Text style={{
-//                         fontFamily: 'outfit',
-//                         fontSize: 13,
-//                         color: 'gray',
-//                         textAlign: 'justify',
-//                         paddingBottom: 5
-//                     }}>Address:  {foods.address}</Text>
-//                     <Text style={{
-//                         fontFamily: 'outfit',
-//                         fontSize: 13,
-//                         color: 'gray',
-//                         textAlign: 'justify',
-//                         paddingBottom: 5
-//                     }}>City:  {foods.city}</Text>
-//                     <Text style={{
-//                         fontFamily: 'outfit',
-//                         fontSize: 13,
-//                         color: 'gray',
-//                         textAlign: 'justify',
-//                         paddingBottom: 5
-//                     }}>Landmark:  {foods.landmark}</Text>
-//                 </View>
-//             </View>
-//         </TouchableOpacity>
-//     )
-// }
-
-//--------------------------------------------------------------------------------------------
-
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -73,12 +7,16 @@ import {
   TouchableOpacity,
   Modal,
   Button,
+  Linking
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import {WindowWidth, WindowHeight} from "./../../GlobalCSS";
+import { WindowWidth, WindowHeight } from "./../../GlobalCSS";
 
 export default function PopularFoodCard({ foods }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const handleCall = () => {
+    Linking.openURL(`tel:${foods.contact}`);
+  };
 
   return (
     <>
@@ -125,14 +63,18 @@ export default function PopularFoodCard({ foods }) {
             title="Default Location"
             description="This is the default marker"
           />
-          
         </MapView>
-        <TouchableOpacity
-            style={styles.btn}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.orderBtn} onPress={handleCall}>
+            <Text style={styles.orderTxt}>Place your order</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.closeBtn}
             onPress={() => setModalVisible(false)}
           >
-            <Text style={styles.txt}>Close</Text>
+            <Text style={styles.closeTxt}>Close</Text>
           </TouchableOpacity>
+        </View>
       </Modal>
     </>
   );
@@ -157,7 +99,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 190,
     borderRadius: 15,
-    marginBottom: 5,
+    marginBottom: 2,
     alignSelf: "center",
     marginTop: 20,
   },
@@ -182,29 +124,49 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   modalContainer: {
-    flex: 1,
-    marginTop:25,
+    flex: 1.3,
+    marginTop: 25,
   },
   map: {
     flex: 1,
-    
   },
   subcont: {
     padding: 25,
   },
-  btn: {
-    height: WindowHeight*0.039,
-    width: WindowWidth*0.3,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    marginVertical: 10, 
+},
+orderBtn: {
+    width: WindowWidth * 0.35, 
+    height: WindowHeight * 0.05, 
     backgroundColor: "#8c1aff",
-    alignSelf: "center",
-    margin:10,
-    borderRadius:5,
-    paddingTop:3
-  },
-  txt: {
+    borderRadius: 5,
+    marginHorizontal: 25, 
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+orderTxt: {
+    fontFamily: 'outfitmedium',
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 16,
+},
+closeBtn: {
+    width: WindowWidth * 0.35, 
+    height: WindowHeight * 0.05,
+    backgroundColor: "#8c1aff",
+    borderRadius: 5,
+    marginHorizontal: 25, 
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+closeTxt: {
     color: "#fff",
     fontFamily: "outfitmedium",
     textAlign: "center",
-    fontSize: 18,
-  },
+    fontSize: 16,
+},
 });

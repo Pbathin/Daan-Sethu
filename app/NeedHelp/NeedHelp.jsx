@@ -12,7 +12,7 @@ export default function NeedHelp() {
       headerTitle: 'Need Help?',
       headerShown: true,
       headerStyle: {
-        backgroundColor: '#8c6fff',
+        backgroundColor: '#8c1aff',
       },
       headerTitleStyle: {
         fontSize: 18,

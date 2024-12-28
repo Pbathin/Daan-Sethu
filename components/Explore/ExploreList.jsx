@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, limit, query, orderBy } from 'firebase/firestore';
 import { db } from '../../configs/FirebaseConfig';

@@ -5,7 +5,7 @@ import {
   import { setDoc, doc } from "firebase/firestore";
   import React, { useEffect, useState } from "react";
   import { useNavigation, router } from "expo-router";
-  import * as ImagePicker from "expo-image-picker";
+  import * as ImagePicker from "expo-image-picker";       
   import { db, storage } from "../../configs/FirebaseConfig";
   import { WindowWidth } from "../../GlobalCSS";
   import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -34,7 +34,8 @@ import {
         headerTitle: "Submit a Request",
         headerShown: true,
         headerStyle: {
-          backgroundColor: "#8c6fff",
+          backgroundColor: "#8c1aff",
+          backgroundColor: "#8c1aff",
         },
         headerTitleStyle: {
           fontSize: 18,
