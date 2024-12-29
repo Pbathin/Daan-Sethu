@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, ToastAndroid, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -6,11 +6,13 @@ import { db } from '../../configs/FirebaseConfig';
 import { setDoc, doc } from 'firebase/firestore';
 import { useUser } from '@clerk/clerk-expo';
 import { Picker } from '@react-native-picker/picker';
+import { Platform } from 'react-native';
 
 export default function ApplyForVolunteers() {
     const navigation = useNavigation();
     const { user } = useUser();
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [contact, setContact] = useState('');
     const [areaOfInterest, setAreaOfInterest] = useState('');
     const [availability, setAvailability] = useState('');
@@ -35,17 +37,34 @@ export default function ApplyForVolunteers() {
     }, [navigation]); // Add dependency array to avoid infinite re-renders.
 
     const pickImage = async () => {
+        // Request permission on Android
+        if (Platform.OS === 'android') {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                ToastAndroid.show('Permission to access media library is required!', ToastAndroid.LONG);
+                return;
+            }
+        }
+    
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
         });
-
-        if (!result.cancelled) {
-            setImage(result.uri);
+    
+        // console.log('Image Picker Result:', result); // Log the entire result object
+    
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            const imageUri = result.assets[0].uri; // Access the URI from the first asset
+            // console.log('Image URI:', imageUri);  // Log the URI to check
+            setImage(imageUri);
+        } else {
+            ToastAndroid.show('No image selected or an error occurred.', ToastAndroid.LONG);
         }
     };
+    
+    
 
     const onSubmitVolunteerForm = async () => {
         if (!name || !contact || !areaOfInterest || !availability || !location || !govId || !image) {
@@ -58,6 +77,7 @@ export default function ApplyForVolunteers() {
             await setDoc(doc(db, 'PendingVolunteers', Date.now().toString()), {
                 name: name,
                 contact: contact,
+                email:email,
                 areaOfInterest: areaOfInterest,
                 availability: availability,
                 location: location,
@@ -82,6 +102,16 @@ export default function ApplyForVolunteers() {
                 Fill out the details to apply as a volunteer.
             </Text>
 
+            <TouchableOpacity onPress={pickImage}>
+                <Text style={styles.btnTxt1}>Pick an Image</Text>
+            </TouchableOpacity>
+
+            {image ? (
+                <Image source={{ uri: image }} style={styles.imagePreview} />
+            ) : (
+                <Text>No image selected</Text>
+            )}
+
             <TextInput
                 placeholder="Your Name"
                 value={name}
@@ -92,6 +122,12 @@ export default function ApplyForVolunteers() {
                 placeholder="Contact Number"
                 value={contact}
                 onChangeText={setContact}
+                style={styles.TxtIp}
+            />
+            <TextInput
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
                 style={styles.TxtIp}
             />
 
@@ -118,11 +154,6 @@ export default function ApplyForVolunteers() {
                 onChangeText={setLocation}
                 style={styles.TxtIp}
             />
-
-            <TouchableOpacity onPress={pickImage} style={styles.btn}>
-                <Text style={styles.btnTxt}>Pick Image</Text>
-            </TouchableOpacity>
-            {image && <Text style={styles.TxtIp}>Image selected</Text>}
 
             <TextInput
                 placeholder="Government ID (Aadhar or Other)"
@@ -168,5 +199,19 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#fff',
         fontSize: 15,
+    },
+    btnTxt1: {
+        fontFamily: 'outfitmedium',
+        textAlign: 'center',
+        color: '#000',
+        fontSize: 15,
+        padding: 20,
+    },
+    imagePreview: {
+        width: '40%',  // Or use a specific width like 300
+        height: 130,    // Set a fixed height
+        borderRadius: 5,
+        margin:5,
+        alignSelf:'center'
     },
 });

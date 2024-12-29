@@ -1,79 +1,94 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function PendingVerifications() {
   const router = useRouter();
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.HeadTxt}>Pending Verifications</Text>
+      {/* Pending Verifications Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Pending Verifications</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOrphanage')}
+        >
+          <Ionicons name="school" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Orphanages List</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOldAgeHome')}
+        >
+          <Ionicons name="bed" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Old Age Home List</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/PendingOrgs/PendingRehaba')}
+        >
+          <Ionicons name="medkit" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Rehabilitation Center List</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOrphanage')}
-      >
-        <Text style={styles.txt}>Orphanages List</Text>
-      </TouchableOpacity>
+      {/* Verified Organizations Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Verified Organizations</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOrphanage')}
+        >
+          <Ionicons name="school" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Orphanages List</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOldAgeHome')}
+        >
+          <Ionicons name="bed" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Old Age Home List</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedRehab')}
+        >
+          <Ionicons name="medkit" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Rehabilitation Center List</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingOldAgeHome')}
-      >
-        <Text style={styles.txt}>Old Age Home List</Text>
-      </TouchableOpacity>
+      {/* Help Requests Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Help Requests</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/HelpRequests/SubmittedRequests')}
+        >
+          <Ionicons name="document-text" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Submitted Requests</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/PendingOrgs/PendingRehaba')}
-      >
-        <Text style={styles.txt}>Rehabilitation Center List</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.HeadTxt}>Verified Organizations</Text>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOrphanage')}
-      >
-        <Text style={styles.txt}>Orphanages List</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedOldAgeHome')}
-      >
-        <Text style={styles.txt}>Old Age Home List</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/VerifiedOrgs/VerifiedRehab')}
-      >
-        <Text style={styles.txt}>Rehabilitation Center List</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.HeadTxt}>Help Requests</Text>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/HelpRequests/SubmittedRequests')}
-      >
-        <Text style={styles.txt}>Submitted Requests</Text>
-      </TouchableOpacity>
-      <Text style={styles.HeadTxt}>Volunteers</Text>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/Volunteers/PendingVolunteers')}
-      >
-        <Text style={styles.txt}>Verification Pending</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => router.push('/AdminPanel/Volunteers/VerifiedVolunteers')}
-      >
-        <Text style={styles.txt}>Verified</Text>
-      </TouchableOpacity>
+      {/* Volunteers Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>Volunteers</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/Volunteers/PendingVolunteers')}
+        >
+          <Ionicons name="hourglass" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Verification Pending</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/Volunteers/VerifiedVolunteers')}
+        >
+          <Ionicons name="checkmark-circle" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Verified</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   )
 }
@@ -81,37 +96,46 @@ export default function PendingVerifications() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     paddingVertical: 20,
-    backgroundColor: '#f0f0f0', 
-    marginBottom:60
+    backgroundColor: '#f7f7f7',
+    paddingBottom:50
   },
-  HeadTxt: {
+  section: {
+    marginBottom: 25,
+  },
+  sectionHeader: {
     fontFamily: 'outfitbold',
-    fontSize: 18,  
-    marginVertical: 10,
-    color: '#444',
+    fontSize: 20,
+    marginBottom: 15,
+    color: '#333',
     textAlign: 'center',
-    letterSpacing: 0.8,
+    letterSpacing: 1.5,
   },
-  btn: {
-    backgroundColor: '#8c6fff', 
-    borderRadius: 8, 
-    marginBottom: 12,
-    elevation: 4,  
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+  button: {
+    backgroundColor: '#8c6fff',
+    borderRadius: 10,
+    marginBottom: 15,
+    paddingVertical: 15,
+    flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000', 
+    justifyContent: 'flex-start',
+    elevation: 5,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    transition: 'all 0.3s ease',
   },
-  txt: {
+  buttonText: {
     fontFamily: 'outfitmedium',
-    fontSize: 16, 
-    color: '#ffffff',
+    fontSize: 16,
+    color: 'white',
     textTransform: 'uppercase',
-    letterSpacing: 1,  
+    letterSpacing: 1.2,
+    marginLeft: 15,
+  },
+  icon: {
+    marginLeft: 10,
   },
 });
