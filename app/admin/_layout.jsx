@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     margin: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    marginLeft:50,
-    marginRight:50
+  marginHorizontal:50,
+  paddingTop:5
   },
   gradientBg: {
     position: 'absolute',

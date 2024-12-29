@@ -45,7 +45,7 @@ export default function TabLayout() {
     <View style={styles.container}>
       {/* Adding Gradient Background */}
       <LinearGradient
-        colors={['#8c6fff', '#b49fff']}
+        colors={['#8c1aff', '#b49fff']}
         style={styles.gradientBg}
       />
       <Tabs
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     overflow: 'hidden',
-    zIndex: -1, // Ensure gradient is behind the tabs
+    zIndex: -1, 
   },
 });

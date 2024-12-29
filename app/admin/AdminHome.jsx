@@ -6,7 +6,7 @@ import PendingVerifications from '../AdminPanel/Verification';
 export default function AdminHome() {
   const data = [];
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Header />
       <FlatList
         data={data}
@@ -18,7 +18,7 @@ export default function AdminHome() {
           </View>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

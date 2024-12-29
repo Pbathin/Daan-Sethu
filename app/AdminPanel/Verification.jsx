@@ -1,12 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { WindowWidth } from '../../GlobalCSS'
 import { useRouter } from 'expo-router'
 
 export default function PendingVerifications() {
   const router = useRouter();
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.HeadTxt}>Pending Verifications</Text>
 
       <TouchableOpacity
@@ -61,7 +60,21 @@ export default function PendingVerifications() {
       >
         <Text style={styles.txt}>Submitted Requests</Text>
       </TouchableOpacity>
-    </View>
+      <Text style={styles.HeadTxt}>Volunteers</Text>
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => router.push('/AdminPanel/Volunteers/PendingVolunteers')}
+      >
+        <Text style={styles.txt}>Verification Pending</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => router.push('/AdminPanel/Volunteers/VerifiedVolunteers')}
+      >
+        <Text style={styles.txt}>Verified</Text>
+      </TouchableOpacity>
+    </ScrollView>
   )
 }
 
@@ -71,6 +84,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 20,
     backgroundColor: '#f0f0f0', 
+    marginBottom:60
   },
   HeadTxt: {
     fontFamily: 'outfitbold',
