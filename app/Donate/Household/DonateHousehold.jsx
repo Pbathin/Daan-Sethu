@@ -8,6 +8,7 @@ import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo';
 import { Picker } from '@react-native-picker/picker';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function DonateHouseholdItems() {
     const navigation = useNavigation();
@@ -90,6 +91,7 @@ export default function DonateHouseholdItems() {
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
             imageUrl: imageUrl,
+            createdAt: serverTimestamp(),
         });
     };
 

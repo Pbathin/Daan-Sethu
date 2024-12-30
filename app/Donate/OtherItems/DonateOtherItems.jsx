@@ -7,6 +7,7 @@ import { setDoc, doc } from 'firebase/firestore';
 import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function DonateItems() {
     const navigation = useNavigation();
@@ -82,6 +83,7 @@ export default function DonateItems() {
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
             imageUrl: imageUrl,
+            createdAt: serverTimestamp(),
         });
         setLoading(false);
         ToastAndroid.show('Item donation added...', ToastAndroid.LONG);

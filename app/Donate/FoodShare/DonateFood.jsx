@@ -8,6 +8,7 @@ import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo'
 import { Picker } from '@react-native-picker/picker'
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function DonateFood() {
     const navigation = useNavigation();
@@ -85,6 +86,7 @@ export default function DonateFood() {
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
             imageUrl: imageUrl,
+            createdAt: serverTimestamp(),
         })
         setLoading(false);
         ToastAndroid.show('New food added...', ToastAndroid.LONG)

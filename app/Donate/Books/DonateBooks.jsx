@@ -8,6 +8,8 @@ import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo';
 import { Picker } from '@react-native-picker/picker';
+import { serverTimestamp } from 'firebase/firestore';
+
 
 export default function DonateBooks() {
     const navigation = useNavigation();
@@ -88,6 +90,7 @@ export default function DonateBooks() {
                 userEmail: user?.primaryEmailAddress?.emailAddress,
                 userImage: user?.imageUrl,
                 imageUrl: imageUrl,
+                createdAt: serverTimestamp(), // Add the createdAt field
             });
             setLoading(false);
             ToastAndroid.show('Book donation added...', ToastAndroid.LONG);

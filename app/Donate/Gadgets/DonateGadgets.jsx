@@ -7,6 +7,7 @@ import { setDoc, doc } from 'firebase/firestore';
 import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function DonateGadgets() {
     const navigation = useNavigation();
@@ -87,6 +88,7 @@ export default function DonateGadgets() {
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
             imageUrl: imageUrl,
+            createdAt: serverTimestamp(),
         });
     };
 
