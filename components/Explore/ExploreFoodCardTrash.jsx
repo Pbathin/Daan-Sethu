@@ -2,10 +2,9 @@ import { Text, View, Image, TouchableOpacity, Alert, ToastAndroid } from 'react-
 import React, { useEffect, useState } from 'react';
 import { WindowWidth, WindowHeight } from '../../GlobalCSS';
 import { Ionicons } from '@expo/vector-icons';
-import { deleteDoc, doc, collection, getDocs } from 'firebase/firestore';
+import { deleteDoc, doc, collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from './../../configs/FirebaseConfig';
 import { router } from 'expo-router';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 export default function ExploreItemCardTrash({ item }) {
     const [itemDetails, setItemDetails] = useState([]);

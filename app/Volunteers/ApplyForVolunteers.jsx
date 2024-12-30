@@ -7,6 +7,7 @@ import { setDoc, doc } from 'firebase/firestore';
 import { useUser } from '@clerk/clerk-expo';
 import { Picker } from '@react-native-picker/picker';
 import { Platform } from 'react-native';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function ApplyForVolunteers() {
     const navigation = useNavigation();
@@ -86,6 +87,7 @@ export default function ApplyForVolunteers() {
                 username: user?.fullName,
                 userEmail: user?.primaryEmailAddress?.emailAddress,
                 userImage: user?.imageUrl,
+                createdAt: serverTimestamp(),
             });
             ToastAndroid.show('Your volunteering application has been submitted and is pending verification.', ToastAndroid.LONG);
             setLoading(false);

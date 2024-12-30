@@ -10,7 +10,8 @@ import {
   import { WindowWidth } from "../../GlobalCSS";
   import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
   import { useUser } from "@clerk/clerk-expo";
-  import { MaterialIcons } from '@expo/vector-icons';  // Icon library
+  import { MaterialIcons } from '@expo/vector-icons';  
+  import { serverTimestamp } from 'firebase/firestore';
   
   export default function ApplyForHelp() {
     const navigation = useNavigation();
@@ -97,7 +98,8 @@ import {
         username: user?.fullName,
         userEmail: user?.primaryEmailAddress?.emailAddress,
         userImage: user?.imageUrl,
-        imageUrls,  // Store array of image URLs
+        imageUrls,  
+        createdAt: serverTimestamp(),
       });
   
       ToastAndroid.show("Request has been submitted", ToastAndroid.LONG);

@@ -5,6 +5,7 @@ import { db, storage } from './../../configs/FirebaseConfig'
 import { setDoc, doc } from 'firebase/firestore';
 import { WindowWidth, WindowHeight } from '../../GlobalCSS';
 import { useUser } from '@clerk/clerk-expo'
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function CustFeedback() {
     const navigation = useNavigation();
@@ -33,6 +34,7 @@ export default function CustFeedback() {
             username: user?.fullName,
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
+            createdAt: serverTimestamp(),
         })
         setLoading(false);
         ToastAndroid.show('Successfully submitted...', ToastAndroid.LONG)

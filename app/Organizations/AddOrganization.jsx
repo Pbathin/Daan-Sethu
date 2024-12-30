@@ -22,6 +22,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/clerk-expo";
 import { Picker } from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function AddOrganization() {
 
@@ -41,6 +42,7 @@ export default function AddOrganization() {
     const [upiId, setUpiId] = useState();
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState([]);  // Array to store multiple images
+    
 
     useEffect(() => {
         navigation.setOptions({
@@ -108,6 +110,7 @@ export default function AddOrganization() {
             userEmail: user?.primaryEmailAddress?.emailAddress,
             userImage: user?.imageUrl,
             imageUrls: imageUrls,  // Store array of image URLs
+            createdAt: serverTimestamp(),
         });
 
         ToastAndroid.show("Org Waiting for verfication...", ToastAndroid.LONG);
