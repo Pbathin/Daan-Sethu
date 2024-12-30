@@ -30,7 +30,7 @@ export default function Header() {
                         </View>
                     </View>
                 </View>
-                {/* <View style={styles.search}>
+                <View style={styles.search}>
                     <Feather name="search" size={24} color="black" style={{ paddingTop:5}} />
                     <TextInput placeholder=' search'
                     style={{
@@ -39,7 +39,7 @@ export default function Header() {
                         fontSize:15,
                         paddingTop:10,
                     }} />
-                </View> */}
+                </View>
             </View>
         </View>
     )
