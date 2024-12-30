@@ -32,7 +32,7 @@ const DonatedItems = () => {
         setLoading(true);
         setItemList([]);
         try {
-            const collections = ['FoodList', 'ClothesList', 'BooksList']; // Add other collections here
+            const collections = ['FoodList', 'ClothesList', 'BookList', 'HouseholdItems', 'GadgetList', 'ItemList'];
             let allItems = [];
 
             for (let collectionName of collections) {
@@ -61,7 +61,7 @@ const DonatedItems = () => {
                     refreshing={loading}
                     renderItem={({ item, index }) => (
                         <ExploreItemCardTrash
-                            item={item} // Pass item as a prop to the card
+                            item={item} 
                             key={index}
                         />
                     )}

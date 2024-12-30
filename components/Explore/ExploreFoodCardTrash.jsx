@@ -5,29 +5,40 @@ import { Ionicons } from '@expo/vector-icons';
 import { deleteDoc, doc, collection, getDocs } from 'firebase/firestore';
 import { db } from './../../configs/FirebaseConfig';
 import { router } from 'expo-router';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 export default function ExploreItemCardTrash({ item }) {
     const [itemDetails, setItemDetails] = useState([]);
     
-    useEffect(() => {
-        // Fetch data from all collections
-        fetchAllItems();
-    }, []);
+   
 
-    const fetchAllItems = async () => {
-        const collections = ['FoodList', 'ClothesList', 'BooksList']; // Add other collections here
-        let allItems = [];
+useEffect(() => {
+    // Fetch data from all collections
+    fetchAllItems();
+}, []);
 
-        for (let collectionName of collections) {
-            const querySnapshot = await getDocs(collection(db, collectionName));
-            querySnapshot.forEach((doc) => {
-                const itemData = doc.data();
-                allItems.push({ id: doc.id, ...itemData, category: collectionName });
-            });
-        }
+const fetchAllItems = async () => {
+    const collections = ['FoodList', 'ClothesList', 'BooksList', 'HouseholdItems', 'GadgetList', 'ItemList'];
+    let allItems = [];
 
-        setItemDetails(allItems);
-    };
+    for (let collectionName of collections) {
+        // Query to order items by creation time, descending
+        const collectionRef = collection(db, collectionName);
+        const q = query(collectionRef, orderBy('createdAt', 'desc')); // 'createdAt' should be a timestamp field in your documents
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+            const itemData = doc.data();
+            allItems.push({ id: doc.id, ...itemData, category: collectionName });
+        });
+    }
+
+    // Optionally sort items across collections by 'createdAt' field
+    allItems.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+
+    setItemDetails(allItems);
+};
+
 
     const onDelete = () => {
         Alert.alert('Do you want to delete', 'Do you really want to Delete this item?', [
@@ -46,7 +57,7 @@ export default function ExploreItemCardTrash({ item }) {
     const deleteItem = async () => {
         console.log('Delete Item');
         await deleteDoc(doc(db, item.category, item?.id)); // Delete from the correct collection
-        router.back();
+        // router.back();
         ToastAndroid.show('Item Deleted!', ToastAndroid.LONG);
     };
 

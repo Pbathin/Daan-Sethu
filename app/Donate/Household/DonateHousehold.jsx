@@ -63,10 +63,15 @@ export default function DonateHouseholdItems() {
         }).then(() => {
             getDownloadURL(imageRef).then(async (downloadUrl) => {
                 console.log(downloadUrl);
-                saveItemList(downloadUrl);
+                await saveItemList(downloadUrl);
+                setLoading(false);
+                ToastAndroid.show('Household item donation added...', ToastAndroid.LONG);
+                navigation.goBack(); // Go back after successful submission
             });
+        }).catch((error) => {
+            console.error("Error uploading file:", error);
+            setLoading(false);
         });
-        setLoading(false);
     };
 
     const saveItemList = async (imageUrl) => {
@@ -86,8 +91,6 @@ export default function DonateHouseholdItems() {
             userImage: user?.imageUrl,
             imageUrl: imageUrl,
         });
-        setLoading(false);
-        ToastAndroid.show('Household item donation added...', ToastAndroid.LONG);
     };
 
     return (

@@ -71,25 +71,32 @@ export default function DonateBooks() {
     };
 
     const saveBookList = async (imageUrl) => {
-        await setDoc(doc(db, 'BookList', Date.now().toString()), {
-            bookTitle: bookTitle,
-            author: author,
-            genre: genre,
-            quantity: quantity,
-            condition: condition,
-            contact: contact,
-            description: description,
-            address: address,
-            landmark: landmark,
-            city: city,
-            pinCode: pinCode,
-            username: user?.fullName,
-            userEmail: user?.primaryEmailAddress?.emailAddress,
-            userImage: user?.imageUrl,
-            imageUrl: imageUrl,
-        });
-        setLoading(false);
-        ToastAndroid.show('Book donation added...', ToastAndroid.LONG);
+        try {
+            await setDoc(doc(db, 'BookList', Date.now().toString()), {
+                bookTitle: bookTitle,
+                author: author,
+                genre: genre,
+                quantity: quantity,
+                condition: condition,
+                contact: contact,
+                description: description,
+                address: address,
+                landmark: landmark,
+                city: city,
+                pinCode: pinCode,
+                username: user?.fullName,
+                userEmail: user?.primaryEmailAddress?.emailAddress,
+                userImage: user?.imageUrl,
+                imageUrl: imageUrl,
+            });
+            setLoading(false);
+            ToastAndroid.show('Book donation added...', ToastAndroid.LONG);
+            navigation.goBack(); // Navigate back to the previous screen
+        } catch (error) {
+            setLoading(false);
+            console.error("Error saving book donation:", error);
+            ToastAndroid.show('Failed to add donation. Try again!', ToastAndroid.LONG);
+        }
     };
 
     return (

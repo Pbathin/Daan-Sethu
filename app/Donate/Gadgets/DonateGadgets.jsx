@@ -1,42 +1,3 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React, { useEffect} from 'react'
-// import { useNavigation } from 'expo-router'
-
-// export default function DonateGadgets() {
-//     const navigation = useNavigation();
-//     useEffect(() => {
-//         navigation.setOptions({
-//             headerTitle: 'Donate Gadgets',
-//             headerShown: true,
-//             headerStyle: {
-//                 backgroundColor: '#8c1aff',
-//             },
-//             headerTitleStyle: {   
-//               fontSize: 18,          
-//               color: '#ffffff',      
-//               fontFamily: 'outfit', 
-//           },
-//         })
-//     }, [])
-//   return (
-//     <View>
-//       <Text style={{
-//         fontFamily:'outfitbold',
-//         fontSize:20,
-//         textAlign:'center',
-//         marginTop:200
-//       }}>Exciting updates are just </Text>
-//       <Text style={{
-//         fontFamily:'outfitbold',
-//         fontSize:20,
-//         textAlign:'center',
-//         marginTop:3
-//       }}>around the corner...! </Text>
-//     </View>
-//   )
-// }
-
-
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from 'expo-router';
@@ -46,7 +7,6 @@ import { setDoc, doc } from 'firebase/firestore';
 import { WindowWidth } from '../../../GlobalCSS';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/clerk-expo';
-import { Picker } from '@react-native-picker/picker';
 
 export default function DonateGadgets() {
     const navigation = useNavigation();
@@ -87,7 +47,6 @@ export default function DonateGadgets() {
             quality: 1,
         });
         setImage(result?.assets[0].uri);
-        console.log(result);
     };
 
     const onDonateGadgets = async () => {
@@ -102,11 +61,13 @@ export default function DonateGadgets() {
             console.log("File Uploaded..");
         }).then(() => {
             getDownloadURL(imageRef).then(async (downloadUrl) => {
-                console.log(downloadUrl);
-                saveGadgetList(downloadUrl);
+                // console.log(downloadUrl);
+                await saveGadgetList(downloadUrl);
+                setLoading(false);
+                ToastAndroid.show('Gadget donation added...', ToastAndroid.LONG);
+                navigation.goBack(); // Go back after successful submission
             });
         });
-        setLoading(false);
     };
 
     const saveGadgetList = async (imageUrl) => {
@@ -127,8 +88,6 @@ export default function DonateGadgets() {
             userImage: user?.imageUrl,
             imageUrl: imageUrl,
         });
-        setLoading(false);
-        ToastAndroid.show('Gadget donation added...', ToastAndroid.LONG);
     };
 
     return (

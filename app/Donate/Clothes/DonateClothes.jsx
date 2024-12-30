@@ -103,6 +103,7 @@ export default function DonateClothes() {
             getDownloadURL(imageRef).then(async (downloadUrl) => {
                 console.log(downloadUrl);
                 saveClothesList(downloadUrl)
+                router.back();
             })
         })
         setLoading(false);

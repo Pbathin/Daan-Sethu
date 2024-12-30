@@ -13,7 +13,7 @@ export default function DonateItems() {
     const [image, setImage] = useState(null);
     const { user } = useUser();
     const [itemName, setItemName] = useState();
-    const [category, setCategory] = useState(); // Added category for different items (e.g., food, clothes, etc.)
+    const [category, setCategory] = useState(); 
     const [quantity, setQuantity] = useState();
     const [condition, setCondition] = useState();
     const [contact, setContact] = useState();
@@ -46,7 +46,6 @@ export default function DonateItems() {
             quality: 1,
         });
         setImage(result?.assets[0].uri);
-        console.log(result);
     };
 
     const onDonateItems = async () => {
@@ -65,7 +64,6 @@ export default function DonateItems() {
                 saveItemList(downloadUrl);
             });
         });
-        setLoading(false);
     };
 
     const saveItemList = async (imageUrl) => {
@@ -87,6 +85,7 @@ export default function DonateItems() {
         });
         setLoading(false);
         ToastAndroid.show('Item donation added...', ToastAndroid.LONG);
+        navigation.goBack(); // Go back after successful donation
     };
 
     return (
@@ -124,7 +123,7 @@ export default function DonateItems() {
                     onChangeText={(v) => setItemName(v)}
                     style={styles.TxtIp}
                 />
-                <TextInput placeholder='Category (e.g., Food, Clothes, Household Items)'
+                <TextInput placeholder='Category'
                     onChangeText={(v) => setCategory(v)}
                     style={styles.TxtIp}
                 />

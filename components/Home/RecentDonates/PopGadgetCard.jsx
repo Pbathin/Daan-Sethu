@@ -6,33 +6,34 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  Button,
   Linking
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { WindowWidth, WindowHeight } from "./../../GlobalCSS";
+import { WindowWidth, WindowHeight } from "../../../GlobalCSS";
 
-export default function PopularFoodCard({ foods }) {
+export default function PopGadgetCard({ item }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [imageModalVisible, setImageModalVisible] = useState(false); // State for full-screen image modal
+
   const handleCall = () => {
-    Linking.openURL(`tel:${foods.contact}`);
+    Linking.openURL(`tel:${item.contact}`);
   };
 
   return (
     <>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View style={styles.card}>
-          <Image source={{ uri: foods?.imageUrl }} style={styles.image} />
+          <Image source={{ uri: item?.imageUrl }} style={styles.image} />
           <View>
-            <Text style={styles.foodName}>{foods.foodName}</Text>
-            <Text style={styles.description}>{foods.description}</Text>
-            <Text style={styles.info}>Address: {foods.address}</Text>
-            <Text style={styles.info}>City: {foods.city}</Text>
-            <Text style={styles.info}>Landmark: {foods.landmark}</Text>
+            <Text style={styles.gadgetName}> {item.gadgetName}</Text>
+            <Text style={styles.description}> Brand: {item.brand}</Text>
+            <Text style={styles.description}> Condition: {item.condition}</Text>
+            <Text style={styles.info}> City: {item.city}</Text>
           </View>
         </View>
       </TouchableOpacity>
 
+      {/* Main Modal */}
       <Modal
         animationType="slide"
         transparent={false}
@@ -40,13 +41,16 @@ export default function PopularFoodCard({ foods }) {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <Image source={{ uri: foods?.imageUrl }} style={styles.image1} />
+          <TouchableOpacity onPress={() => setImageModalVisible(true)}>
+            <Image source={{ uri: item?.imageUrl }} style={styles.image1} />
+          </TouchableOpacity>
           <View style={styles.subcont}>
-            <Text style={styles.foodName}>{foods.foodName}</Text>
-            <Text style={styles.description}>{foods.description}</Text>
-            <Text style={styles.info}>Address: {foods.address}</Text>
-            <Text style={styles.info}>City: {foods.city}</Text>
-            <Text style={styles.info}>Landmark: {foods.landmark}</Text>
+            <Text style={styles.gadgetName}> {item.gadgetName}</Text>
+            <Text style={styles.description}> {item.description}</Text>
+            <Text style={styles.description}> Brand: {item.brand},        Model: {item.model}</Text>
+            <Text style={styles.description}> Condition: {item.condition},        Quantity: {item.quantity}</Text>
+            <Text style={styles.info}> Address: {item.address}</Text>
+            <Text style={styles.info}> City: {item.city},        Pincode: {item.pinCode}</Text>
           </View>
         </View>
         <MapView
@@ -76,6 +80,21 @@ export default function PopularFoodCard({ foods }) {
           </TouchableOpacity>
         </View>
       </Modal>
+
+      {/* Full-Screen Image Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={imageModalVisible}
+        onRequestClose={() => setImageModalVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.fullScreenModal}
+          onPress={() => setImageModalVisible(false)}
+        >
+          <Image source={{ uri: item?.imageUrl }} style={styles.fullScreenImage} />
+        </TouchableOpacity>
+      </Modal>
     </>
   );
 }
@@ -103,7 +122,18 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 20,
   },
-  foodName: {
+  fullScreenModal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  fullScreenImage: {
+    width: "90%",
+    height: "90%",
+    resizeMode: "contain",
+  },
+  gadgetName: {
     fontFamily: "outfitbold",
     fontSize: 17,
     textAlign: "center",
@@ -118,7 +148,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontFamily: "outfit",
-    fontSize: 13,
+    fontSize: 15,
     color: "gray",
     textAlign: "justify",
     paddingBottom: 5,
@@ -138,8 +168,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', 
     alignItems: 'center',
     marginVertical: 10, 
-},
-orderBtn: {
+  },
+  orderBtn: {
     width: WindowWidth * 0.35, 
     height: WindowHeight * 0.05, 
     backgroundColor: "#8c1aff",
@@ -147,14 +177,14 @@ orderBtn: {
     marginHorizontal: 25, 
     justifyContent: 'center',
     alignItems: 'center',
-},
-orderTxt: {
+  },
+  orderTxt: {
     fontFamily: 'outfitmedium',
     textAlign: 'center',
     color: '#fff',
     fontSize: 16,
-},
-closeBtn: {
+  },
+  closeBtn: {
     width: WindowWidth * 0.35, 
     height: WindowHeight * 0.05,
     backgroundColor: "#8c1aff",
@@ -162,11 +192,11 @@ closeBtn: {
     marginHorizontal: 25, 
     justifyContent: 'center',
     alignItems: 'center',
-},
-closeTxt: {
+  },
+  closeTxt: {
     color: "#fff",
     fontFamily: "outfitmedium",
     textAlign: "center",
     fontSize: 16,
-},
+  },
 });

@@ -1,48 +1,39 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, limit, query } from 'firebase/firestore';
-import { db } from '../../configs/FirebaseConfig';
-import PopularFoodCard from './PopularFoodCard';
+import { db } from '../../../configs/FirebaseConfig';
+import PopHouseholdItemCard from './PopHouseholdItemCard';
 
+export default function PopHouseholdItems() {
+    const [householdItemsList, setHouseholdItemsList] = useState([]);
 
-export default function PopularFoodList() {
-
-    const [foodList, setFoodList] = useState([]);
     useEffect(() => {
-        GetFoodList();
+        fetchHouseholdItems();
     }, []);
-    const GetFoodList = async () => {
-        setFoodList([]);
-        const q = query(collection(db, 'FoodList'), limit(10));
-        const querySnapshot = await getDocs(q);
-        const foodList = [];
-        querySnapshot.forEach((doc) => {
-            setFoodList(prev=>[...prev,doc.data()]);
-            // foodList.push(doc.data());
-        })
-    }
 
+    const fetchHouseholdItems = async () => {
+        setHouseholdItemsList([]);
+        const q = query(collection(db, 'HouseholdItems'), limit(10));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            setHouseholdItemsList(prev => [...prev, doc.data()]);
+        });
+    };
 
     return (
         <View>
-            <View style={styles.sub}>
-                <Text style={styles.headerText}>Popular Foods</Text>
-                <Text style={styles.subheadtxt}>View All</Text>
-            </View>
             <FlatList
-                data={foodList}
+                data={householdItemsList}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => (
-                    <PopularFoodCard
-                        foods={item}
+                    <PopHouseholdItemCard
+                        item={item}
                         key={index}
                     />
                 )}
             />
-            <View style={{
-                marginBottom:20
-            }}/>
+            <View style={{ marginBottom: 20 }} />
         </View>
     );
 }
