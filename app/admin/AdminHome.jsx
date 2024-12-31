@@ -1,10 +1,25 @@
-import { SafeAreaView, StyleSheet, FlatList, View } from "react-native";
-import React from "react";
+import { StyleSheet, FlatList, View, RefreshControl } from "react-native";
+import React, { useState } from "react";
 import Header from "../../components/Home/Header";
-import PendingVerifications from '../AdminPanel/Verification';
+import PendingVerifications from "../AdminPanel/Verification";
 
 export default function AdminHome() {
-  const data = [];
+  const [refreshing, setRefreshing] = useState(false);
+  const [data, setData] = useState([]); 
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    
+    try {
+      const updatedData = [];
+      setData(updatedData);
+    } catch (error) {
+      console.error("Error refreshing data:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header />
@@ -14,9 +29,12 @@ export default function AdminHome() {
         renderItem={null}
         ListHeaderComponent={() => (
           <View>
-            <PendingVerifications/>
+            <PendingVerifications />
           </View>
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );
