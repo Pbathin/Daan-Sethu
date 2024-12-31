@@ -15,13 +15,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.athinpb.daansethu",
-      "newArchEnabled": false
+      "newArchEnabled": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff",
-        "newArchEnabled": false
+        "newArchEnabled": true
       },
       "package": "com.athinpb.Daan_sethu",
       "permissions": [
