@@ -71,10 +71,17 @@ export default function PendingVerifications() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push('/AdminPanel/HelpRequests/DonationsForm')}
+          onPress={() => router.push('/AdminPanel/HelpRequests/DontaionsForm ')}
         >
           <Ionicons name="document-text" size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>Submit Proofs</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/AdminPanel/HelpRequests/AdminSubmissions ')}
+        >
+          <Ionicons name="document-text" size={24} color="white" style={styles.icon} />
+          <Text style={styles.buttonText}>Submitted Proofs</Text>
         </TouchableOpacity>
       </View>
 

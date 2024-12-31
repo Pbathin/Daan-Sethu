@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native";
 import { WindowWidth, WindowHeight } from "../../GlobalCSS";
-import { useNavigation } from "expo-router";
+import { useNavigation, router} from "expo-router";
 
 
 const upiID = "daansethu@oksbi";
@@ -115,6 +115,12 @@ export default function SupportUs() {
             Note: Ensure that the UPI ID and bank details are correct before
             proceeding with any payments.
           </Text>
+
+          <TouchableOpacity
+            onPress={toggleQRModal}
+          >
+            <Text style={styles.btnText2}>View donations</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -133,7 +139,9 @@ export default function SupportUs() {
               source={require("../../assets/images/QR code.png")} // Use the actual QR image here
             />
 
-            <Pressable  onPress={toggleQRModal}>
+            <Pressable  
+            onPress={() => router.push('/SupportUs/ViewDonations ')}
+            >
               <Text style={styles.closeButtonText}>❌</Text>
             </Pressable>
           </View>
@@ -226,8 +234,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#8C6FFF",
     textAlign: "center",
-    fontWeight: "bold",
-    fontFamily:"outfit"
+    fontFamily:"outfitbold"
+  },
+  btnText2: {
+    fontSize: 16,
+    color: "#8C6FFF",
+    textAlign: "center",
+    fontFamily:"outfitmedium",
+    marginTop:20
   },
   accountCard: {
     backgroundColor: "#fff",
