@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native";
 import { WindowWidth, WindowHeight } from "../../GlobalCSS";
-import { useNavigation, router} from "expo-router";
+import { useNavigation, router } from "expo-router";
 
 
 const upiID = "daansethu@oksbi";
@@ -117,7 +117,8 @@ export default function SupportUs() {
           </Text>
 
           <TouchableOpacity
-            onPress={toggleQRModal}
+          style={styles.donations}
+            onPress={() => router.push('/SupportUs/ViewDonations')}
           >
             <Text style={styles.btnText2}>View donations</Text>
           </TouchableOpacity>
@@ -139,9 +140,7 @@ export default function SupportUs() {
               source={require("../../assets/images/QR code.png")} // Use the actual QR image here
             />
 
-            <Pressable  
-            onPress={() => router.push('/SupportUs/ViewDonations ')}
-            >
+            <Pressable  onPress={toggleQRModal}>
               <Text style={styles.closeButtonText}>❌</Text>
             </Pressable>
           </View>
@@ -324,4 +323,9 @@ const styles = StyleSheet.create({
     marginTop:4,
     marginLeft:-1
   },
+  donations:{
+    height:1000,
+    width:200,
+    marginTop:30
+  }
 });

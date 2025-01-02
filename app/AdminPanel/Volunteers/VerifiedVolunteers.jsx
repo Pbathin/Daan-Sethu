@@ -74,11 +74,11 @@ export default function VerifiedVolunteers() {
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <View style={styles.block}>
-                                <Image
+                                {/* <Image
                                     source={{ uri: item.image }}
                                     style={styles.image}
                                     resizeMode="cover"
-                                />
+                                /> */}
                                 <Text style={styles.name}>Name: {item.name}</Text>
                                 <Text style={styles.text}>Email: {item.email}</Text>
                                 <Text style={styles.text}>Phone: {item.contact}</Text>
