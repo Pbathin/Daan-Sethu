@@ -15,7 +15,7 @@ export default function LoginScreen() {
 
   const onPress = React.useCallback(async () => {
     try {
-      const { createdSessionId, signIn, signUp, setActive } =
+      const {  signIn, signUp, setActive } =
         await startOAuthFlow();
 
       if (createdSessionId) {
