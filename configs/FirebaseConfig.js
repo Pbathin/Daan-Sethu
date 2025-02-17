@@ -10,8 +10,8 @@ const firebaseConfig = {
   projectId: "daansethu",
   storageBucket: "daansethu.appspot.com",
   messagingSenderId: "336666244159",
-  appId: "1:336666244159:web:654c2a949b22729e66f48a",
-  measurementId: "G-XNW9NLMGL8"
+  // appId: "1:336666244159:web:654c2a949b22729e66f48a",
+  // measurementId: "G-XNW9NLMGL8"
 };
 
 // Initialize Firebase
