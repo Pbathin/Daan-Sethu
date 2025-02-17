@@ -50,8 +50,7 @@ export default function RootLayout() {
     <ClerkProvider>
       <SignedIn>
         <Stack screenOptions={{ headerShown: false }}  linking={linking}>
-          <Stack.Screen name="admin" />
-          <Stack.Screen name="(tabs)" />   
+
 
           {/* Other routes */}
         </Stack>
