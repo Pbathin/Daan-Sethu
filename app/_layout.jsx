@@ -6,14 +6,14 @@ import * as SecureStore from "expo-secure-store";
 
 
 const tokenCache = {
-  async getToken(key) {
+  async getToken() {
     try {
       return await SecureStore.getItemAsync(key);
     } catch (err) {
       return null;
     }
   },
-  async saveToken(key, value) {
+  async saveToken() {
     try {
       return await SecureStore.setItemAsync(key, value);
     } catch (err) {
